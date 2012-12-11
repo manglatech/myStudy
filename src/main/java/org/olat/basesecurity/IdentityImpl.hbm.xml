@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false">
+  <class name="org.olat.basesecurity.IdentityImpl" table="o_bs_identity">
+  	<!-- the default columns -->
+    <id name="key" column="id" type="long" unsaved-value="null">
+      <generator class="hilo"/>
+    </id>
+    
+    <version name="version" access="field" column="version" type="int"/>
+	<property  name="creationDate" column="creationdate" type="timestamp" />   
+ 	<property  name="lastLogin" column="lastlogin" type="timestamp" />
+ 	
+    <property name="name" type="string">
+    	<column name="name" unique="true" length="128" not-null="true" index="name_idx2" />
+    </property>
+    <property name="status" type="integer">
+    	<column name="status" index="identstatus_idx"/>
+    </property>
+ 	<property name="instituteId" type="string">
+    	<column name="fk_institute_id" length="20" not-null="true" index="fk_institute_id_idx" />
+    </property>
+ 
+    <many-to-one name="user" column="fk_user_id" class="org.olat.user.UserImpl" fetch="join" unique="true"  cascade="none"/>
+
+  </class>
+  
+  
+  <class name="org.olat.basesecurity.IdentityShort" table="o_bs_identity_short_v" mutable="false">
+  	<!-- the default columns -->
+	<id name="key" column="id_id" type="long" unsaved-value="null">
+      <generator class="hilo"/>
+    </id>
+	 
+	<property name="userKey" column="us_id" type="long" />
+ 	<property name="lastLogin" column="id_lastlogin" type="timestamp" />
+    <property name="name" column="id_name" type="string" />
+    <property name="status" column="id_status" type="integer" />
+
+    <property name="firstName" column="first_name" type="string" />
+    <property name="lastName" column="last_name" type="string" />
+    <property name="email" column="email" type="string" />
+
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,8 @@
+$r.render("feeIdentityList")
+
+#if($r.available("add.fee.identity.mapping"))
+	<div class="b_clearfix">
+		<p>$r.translate("create.fee.identity.description")</p>
+		$r.render("add.fee.identity.mapping")
+	</div>
+#end

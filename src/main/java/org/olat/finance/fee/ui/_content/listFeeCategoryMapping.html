@@ -1,0 +1,8 @@
+$r.render("feeList")
+
+#if($r.available("add.fee.category.mapping"))
+	<div class="b_clearfix">
+		<p>$r.translate("create.fee.description")</p>
+		$r.render("add.fee.category.mapping")
+	</div>
+#end

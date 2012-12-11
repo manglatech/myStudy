@@ -1,0 +1,8 @@
+$r.render("payments")
+
+#if($r.available("add.payments"))
+	<div class="b_clearfix">
+		<p>$r.translate("add.payments.description")</p>
+		$r.render("add.payments")
+	</div>
+#end
