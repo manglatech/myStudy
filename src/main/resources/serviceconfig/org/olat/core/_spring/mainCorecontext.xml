@@ -30,6 +30,8 @@
 	-->
 	<!-- <bean id="fullWebApp.HeaderControllerCreator" class="org.olat.core.gui.control.creator.AutoCreator" >
 		<property name="className" value="org.olat.core.commons.fullWebApp.EmptyHeaderController"/>
+	-->
+	
 	<bean id="fullWebApp.HeaderControllerCreator" class="org.olat.core.commons.fullWebApp.LogoWithLinkHeaderControllerCreator" >
 		<property name="linkURI" value=""/>
 		<property name="imgURI" value="${site.login.logo}"/>
