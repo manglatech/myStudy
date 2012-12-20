@@ -76,6 +76,7 @@ public class FinanceAdminMainController extends MainLayoutBasicController {
 	//private static final Object ALL_UNPAID_USERS_LIST_UOBJECT = "allUnPaidUsersList";
 	private static final Object FINANCE_ADMIN_UOBJECT = "financeadmin";
 	private static final Object FEE_ADMIN_UOBJECT = "feeadmin";
+	private static final Object USER_ACCOUNT_PREDEFINE_SEARCH_LIST_UOBJECT = "userAccountPredefineSearch";
 	OLog log = Tracing.createLoggerFor(this.getClass());
 
 	private MenuTree olatMenuTree;
@@ -115,7 +116,7 @@ public class FinanceAdminMainController extends MainLayoutBasicController {
 						.wrapBusinessPath(ores));
 		WindowControl bwControl = addToHistory(ureq, ores, null);
 
-		contentCtr = new FeeListController(ureq, bwControl);
+		contentCtr = new SelectUserAccountController(ureq, bwControl);
 		listenTo(contentCtr); // auto dispose later
 
 		content = new Panel("content");
@@ -233,6 +234,20 @@ public class FinanceAdminMainController extends MainLayoutBasicController {
 		admin.setAltText(translator.translate("menu.financeadmin.alt"));
 		gtm.setRootNode(admin);
 
+		gtnChild = new GenericTreeNode();
+		gtnChild.setTitle(translator.translate("user.account.search.list"));
+		gtnChild.setUserObject(USER_ACCOUNT_SEARCH_LIST_UOBJECT);
+		gtnChild.setAltText(translator.translate("user.account.search.list.alt"));
+		admin.setDelegate(gtnChild);
+		admin.addChild(gtnChild);
+		
+		gtnChild = new GenericTreeNode();
+		gtnChild.setTitle(translator.translate("user.account.predefine.search"));
+		gtnChild.setUserObject(USER_ACCOUNT_PREDEFINE_SEARCH_LIST_UOBJECT);
+		gtnChild.setAltText(translator.translate("user.account.predefine.search.alt"));
+		admin.setDelegate(gtnChild);
+		admin.addChild(gtnChild);
+		
 		feeAdmin = new GenericTreeNode();
 		feeAdmin.setTitle(translator.translate("fee.admin"));
 		feeAdmin.setUserObject("feeadmin");
@@ -254,12 +269,6 @@ public class FinanceAdminMainController extends MainLayoutBasicController {
 		feeAdmin.setDelegate(gtnChild);
 		feeAdmin.addChild(gtnChild);
 		
-		gtnChild = new GenericTreeNode();
-		gtnChild.setTitle(translator.translate("user.account.search.list"));
-		gtnChild.setUserObject(USER_ACCOUNT_SEARCH_LIST_UOBJECT);
-		gtnChild.setAltText(translator.translate("user.account.search.list.alt"));
-		feeAdmin.setDelegate(gtnChild);
-		feeAdmin.addChild(gtnChild);
 		
 		/*gtnChild = new GenericTreeNode();
 		gtnChild.setTitle(translator.translate("all.unpaid.user.list"));

@@ -29,9 +29,9 @@ import org.olat.course.member.MemberListController;
 import org.olat.finance.fee.manager.FeeService;
 import org.olat.finance.fee.model.FeeCategory;
 import org.olat.finance.fee.model.SingleFeeCategoryChosenEvent;
+import org.olat.finance.fee.ui.AssingFeeCategoryListController;
 import org.olat.finance.user.manager.UserAccountService;
 import org.olat.finance.user.model.UserAccountView;
-import org.olat.finance.user.payment.ui.UserAccountPaymentsListController;
 
 public class SelectUserAccountController extends BasicController implements
 		Activateable2 {
@@ -114,21 +114,19 @@ public class SelectUserAccountController extends BasicController implements
 		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
 				"table.user.account.user.email", 1, null, locale));
 		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.user.account.user.group", 2, null, locale));
+				"table.user.account.user.template", 2, TABLE_ACTION_TEMPLLATE_DETAILS, locale));
 		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.user.account.user.template", 3, TABLE_ACTION_TEMPLLATE_DETAILS, locale));
+				"table.user.account.user.total.amount", 3, null, locale));
 		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.user.account.user.total.amount", 4, null, locale));
+				"table.user.account.user.amount.paid", 4, null, locale));
 		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.user.account.user.amount.paid", 5, null, locale));
+				"table.user.account.user.amount.remaining", 5, null, locale));
 		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.user.account.user.amount.remaining", 6, null, locale));
+				"table.user.account.user.paid.status", 6, null, locale));
 		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.user.account.user.paid.status", 7, null, locale));
+				"table.user.account.user.pay", 7, TABLE_ACTION_MAKE_PAYMENT, locale));
 		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.user.account.user.pay", 8, TABLE_ACTION_MAKE_PAYMENT, locale));
-		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.user.account.user.assign", 9, TABLE_ACTION_ASSIGN_TEMPLATE, locale));
+				"table.user.account.user.assign", 8, TABLE_ACTION_ASSIGN_TEMPLATE, locale));
 	}
 
 	@Override
@@ -160,7 +158,7 @@ public class SelectUserAccountController extends BasicController implements
 				List<UserAccountView> selectedItems = userAccountSearchListModel.getObjects(te.getSelection());
 				if(TABLE_ACTION_EMAIL_INVOICE.equals(te.getAction())) {
 					for(UserAccountView view : selectedItems){
-						String userName = view.getName();
+						String userName = view.getIdentity().getName();
 						showWarning("Email Invoice To User "+userName);
 					}
 				} else if(TABLE_ACTION_PAY_IN_FULL.equals(te.getAction())) {
@@ -186,16 +184,11 @@ public class SelectUserAccountController extends BasicController implements
 	
 	protected UserAccountDetailController controller;
 	private void doViewAccountDetails(UserRequest ureq, UserAccountView view) {
-		
-		Long identityId = view.getIdentityId();
-		Identity identity = BaseSecurityManager.getInstance().loadIdentityByKey(identityId);
-		SingleIdentityChosenEvent identityEvent = new SingleIdentityChosenEvent(identity);
+		SingleIdentityChosenEvent identityEvent = new SingleIdentityChosenEvent(view.getIdentity());
 		fireEvent(ureq, identityEvent);
-
 	}
 	private void doViewFeeCategoryDetails(UserRequest ureq, UserAccountView view){
-		FeeCategory feeCategory = feeService.findFeeCategoryById(view.getTemplateId());
-		fireEvent(ureq, new SingleFeeCategoryChosenEvent(feeCategory));
+		fireEvent(ureq, new SingleFeeCategoryChosenEvent(view.getFeeCategory()));
 	}
 
 	protected void doViewFee(UserRequest ureq, UserAccountView view) {

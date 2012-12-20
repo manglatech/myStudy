@@ -49,7 +49,7 @@ import org.olat.user.UserManager;
  */
 public class FeeCategoryCreateController extends BasicController  {
 
-	private FeeFormController feeFormController;
+	private FeeCategoryFormController feeFormController;
 	private FeeService feeService;
 
 	/**
@@ -59,7 +59,7 @@ public class FeeCategoryCreateController extends BasicController  {
 	public FeeCategoryCreateController (UserRequest ureq, WindowControl wControl) {
 		super(ureq, wControl, Util.createPackageTranslator(FeeCategoryCreateController.class, ureq.getLocale()));
 		Translator pT = UserManager.getInstance().getPropertyHandlerTranslator(getTranslator());		
-		feeFormController = new FeeFormController(ureq, wControl, pT);		
+		feeFormController = new FeeCategoryFormController(ureq, wControl, pT);		
 		feeService = CoreSpringFactory.getImpl(FeeService.class);
 		this.listenTo(feeFormController);
 				
@@ -80,12 +80,13 @@ public class FeeCategoryCreateController extends BasicController  {
 			if (event == Event.DONE_EVENT) {
 				String name = feeFormController.getFeeName().getValue();
 				String desc = feeFormController.getFeeDesc().getValue();
+				
 				FeeCategory newFeeCategory = new FeeCategoryImpl();
 				newFeeCategory.setName(name);
 				newFeeCategory.setDescription(desc);
 				newFeeCategory.setInstituteId(getUserInst());
-
-				FeeCategory feeCategory = feeService.createFeeCategory(getIdentity(), newFeeCategory);
+				
+				feeService.createFeeCategory(getIdentity(), newFeeCategory);
 				fireEvent(ureq, Event.DONE_EVENT);
 			}
 			else if (event == Event.CANCELLED_EVENT) {

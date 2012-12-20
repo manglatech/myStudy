@@ -44,12 +44,12 @@ public class UserAccountServiceImpl implements UserAccountService{
 	@Override
 	public void markAccountAsPaidInFull(List<UserAccountView> selectedItems) {
 		for(UserAccountView view : selectedItems){
-			markAccountAsPaidInFull(view.getIdentityId(), view.getTemplateId());
+			markAccountAsPaidInFull(view.getIdentity().getKey(), view.getFeeCategory().getKey());
 		}
 	}
 	@Override
 	public void assingFeeCategory(FeeCategory category, UserAccountView view) {
-		Identity identity = BaseSecurityManager.getInstance().loadIdentityByKey(view.getIdentityId());
+		Identity identity = BaseSecurityManager.getInstance().loadIdentityByKey(view.getIdentity().getKey());
 		feeService.addIdentitiesToFeeCategory(identity, category);
 	}
 }

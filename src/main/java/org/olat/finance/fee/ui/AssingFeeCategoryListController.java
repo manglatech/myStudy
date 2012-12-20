@@ -1,5 +1,4 @@
-//DELETE
-/*package org.olat.finance.user.ui;
+package org.olat.finance.fee.ui;
 
 import org.olat.core.gui.UserRequest;
 import org.olat.core.gui.components.table.TableGuiConfiguration;
@@ -31,4 +30,4 @@ public class AssingFeeCategoryListController extends FeeCategoryListController {
 		return view;
 	}
 	
-}*/
+}

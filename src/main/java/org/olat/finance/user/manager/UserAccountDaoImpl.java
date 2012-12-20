@@ -9,6 +9,8 @@ import org.olat.core.commons.persistence.DB;
 import org.olat.finance.user.model.UserAccountView;
 import org.olat.finance.user.model.UserAccountViewImpl;
 import org.olat.finance.user.ui.UserAccountSearchParams;
+import org.olat.finance.user.util.AccountUtil;
+import org.olat.finance.user.util.PaidStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +49,26 @@ public class UserAccountDaoImpl implements UserAccountDao{
 		if(params.getUserName() != null){
 			query.append(" and ");
 			searchLikeAttribute(query, "uav", "name", "userName");
+		}
+		if(params.getPaidStatus() != null){
+			switch (params.getPaidStatus()) {
+				case NOT_PAID:
+					query.append(" and ");
+					query.append(" user_paid_amount is null or user_paid_amount = 0 ");
+					break;
+				case PARTIAL_PAID:
+					query.append(" and ");
+					query.append(" user_paid_amount < total_amount ");
+/*					query.append(" and ");
+					query.append(" (user_paid_amount is not null or user_paid_amount != 0) ");*/					
+					break;
+				case PAID:
+					query.append(" and ");
+					query.append(" user_paid_amount >= total_amount ");
+					break;
+				default:
+					break;
+			}
 		}
 		
 		TypedQuery<UserAccountView> dbq = dbInstance.getCurrentEntityManager().createQuery(

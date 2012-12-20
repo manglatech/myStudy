@@ -22,7 +22,6 @@ public class UserAccountSearchController extends FormBasicController implements 
 
 	private TextElement userName; 
 	private TextElement templateName;
-	private TextElement groupName;
 	private FormSubmit searchButton;
 	private SingleSelection paidStatusEl;
 	//private MultipleSelectionElement headlessEl;
@@ -30,7 +29,7 @@ public class UserAccountSearchController extends FormBasicController implements 
 	private String[] paidStatusKeys = {"all", "unPaid", "paid", "partialPaid"};
 
 	public UserAccountSearchController(UserRequest ureq, WindowControl wControl) {
-		super(ureq, wControl, "user_account_search");
+		super(ureq, wControl);
 		initForm(ureq);
 	}
 	
@@ -39,39 +38,27 @@ public class UserAccountSearchController extends FormBasicController implements 
 		
 		uifactory.addStaticTextElement("heading1", null, translate("search.user.account.info"), formLayout);
 		
-		FormLayoutContainer leftContainer = FormLayoutContainer.createDefaultFormLayout("left_1", getTranslator());
-		leftContainer.setRootForm(mainForm);
-		formLayout.add(leftContainer);
-
-		userName = uifactory.addTextElement("usc_username", "usc.username", 255, "", leftContainer);
+		userName = uifactory.addTextElement("usc_username", "usc.username", 255, "", formLayout);
 		userName.setFocus(true);
 		userName.setDisplaySize(28);
 		
-		templateName = uifactory.addTextElement("usc_templatename", "usc.templatename", 255, "", leftContainer);
+		templateName = uifactory.addTextElement("usc_templatename", "usc.templatename", 255, "", formLayout);
 		templateName.setDisplaySize(28);
-		
-		groupName = uifactory.addTextElement("usc_groupname", "usc.groupname", 255, "", leftContainer);
-		groupName.setDisplaySize(28);
-
-		FormLayoutContainer rightContainer = FormLayoutContainer.createDefaultFormLayout("right_1", getTranslator());
-		rightContainer.setRootForm(mainForm);
-		formLayout.add(rightContainer);
 		
 		//roles
 		String[] paidStatusValues = new String[paidStatusKeys.length];
 		for(int i=paidStatusKeys.length; i-->0; ) {
 			paidStatusValues[i] = translate("search." + paidStatusKeys[i]);
 		}
-		paidStatusEl = uifactory.addRadiosHorizontal("roles", "search.roles", rightContainer, paidStatusKeys, paidStatusValues);
-		paidStatusEl.select("all", true);
+		paidStatusEl = uifactory.addRadiosHorizontal("paidStatus", "search.paid.status", formLayout, paidStatusKeys, paidStatusValues);
+		paidStatusEl.select("unPaid", true);
 
 		FormLayoutContainer buttonLayout = FormLayoutContainer.createButtonLayout("button_layout", getTranslator());
 		formLayout.add(buttonLayout);
 		buttonLayout.setElementCssClass("o_sel_group_search_groups_buttons");
-		searchButton = uifactory.addFormSubmitButton("search", "search", buttonLayout);
+		searchButton = uifactory.addFormSubmitButton("search", "search.user.account", buttonLayout);
 	}
 
-	@Override
 	protected void doDispose() {
 		//
 	}
@@ -80,19 +67,14 @@ public class UserAccountSearchController extends FormBasicController implements 
 	public String getTemplateName() {
 		return templateName.getValue();
 	}
-	public String getGroupName() {
-		return groupName.getValue();
-	}
+	
 	
 	public String getUserName() {
 		return userName.getValue();
 	}
-
-	/**
-	 * @return True if the text search fields are empty
-	 */
+	
 	public boolean isEmpty() {
-		return templateName.isEmpty() && groupName.isEmpty() && userName.isEmpty();
+		return templateName.isEmpty() && userName.isEmpty();
 	}
 	
 	@Override
@@ -130,9 +112,6 @@ public class UserAccountSearchController extends FormBasicController implements 
 		if(StringHelper.containsNonWhitespace(e.getTemplateName())) {
 			templateName.setValue(e.getTemplateName());
 		}
-		if(StringHelper.containsNonWhitespace(e.getGroupName())) {
-			templateName.setValue(e.getGroupName());
-		}
 		if(paidStatusEl != null) {
 			if(e.isAllStatus()) {
 				paidStatusEl.select("all", true);
@@ -150,7 +129,6 @@ public class UserAccountSearchController extends FormBasicController implements 
 		UserAccountSearchEvent e = new UserAccountSearchEvent();
 		e.setUserName(getUserName());
 		e.setTemplateName(getTemplateName());
-		e.setGroupName(getGroupName());
 		
 		if(paidStatusEl != null && paidStatusEl.isOneSelected()) {
 			e.setAllStatus(paidStatusEl.isSelected(0));

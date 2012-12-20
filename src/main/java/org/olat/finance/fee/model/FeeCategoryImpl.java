@@ -98,6 +98,4 @@ public class FeeCategoryImpl extends OLATPersistenceObject implements FeeCategor
 	public void setFeeIdentityMapping(Set<FeeIdentityMapping> feeIdentityMapping) {
 		this.feeIdentityMapping = feeIdentityMapping;
 	}
-	
-	
 }

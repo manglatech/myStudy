@@ -1,5 +1,7 @@
 package org.olat.finance.user.ui;
 
+import org.olat.finance.user.util.PaidStatus;
+
 
 public class UserAccountSearchParams {
 	
@@ -10,6 +12,7 @@ public class UserAccountSearchParams {
 	private String userName;
 	private String templateName;
 	private String instituteId;
+	private PaidStatus paidStatus;
 	
 	public String getGroupName() {
 		return groupName;
@@ -35,4 +38,11 @@ public class UserAccountSearchParams {
 	public void setInstituteId(String instituteId) {
 		this.instituteId = instituteId;
 	}
+	public PaidStatus getPaidStatus() {
+		return paidStatus;
+	}
+	public void setPaidStatus(PaidStatus paidStatus) {
+		this.paidStatus = paidStatus;
+	}
+	
 }

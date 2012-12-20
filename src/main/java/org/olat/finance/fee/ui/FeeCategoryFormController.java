@@ -75,7 +75,7 @@ class FeeCategoryFormController extends FormBasicController {
 		feeDesc.setMandatory(true);
 		feeDesc.setDisplaySize(30);
 		
-		if(isEmbbeded())
+		if(!isEmbbeded())
 			uifactory.addFormSubmitButton("save", "submit.save", formLayout);
 	}	
 	

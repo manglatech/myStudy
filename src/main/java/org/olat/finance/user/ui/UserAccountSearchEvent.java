@@ -4,6 +4,7 @@ import org.olat.core.gui.control.Event;
 import org.olat.core.id.Identity;
 import org.olat.core.id.context.StateEntry;
 import org.olat.core.util.StringHelper;
+import org.olat.finance.user.util.PaidStatus;
 
 public class UserAccountSearchEvent extends Event implements StateEntry {
 	
@@ -85,6 +86,14 @@ public class UserAccountSearchEvent extends Event implements StateEntry {
 		params.setUserName((StringHelper.containsNonWhitespace(userName)) ? userName : null);
 		params.setTemplateName((StringHelper.containsNonWhitespace(templateName)) ? templateName : null);
 		params.setInstituteId(identity.getInstituteId());
+		
+		if(isPaidStatus){
+			params.setPaidStatus(PaidStatus.PAID);
+		}else if(isPartialPaidStatus){
+			params.setPaidStatus(PaidStatus.PARTIAL_PAID);
+		}else if(isUnPaidStatus){
+			params.setPaidStatus(PaidStatus.NOT_PAID);
+		}
 		return params;
 	}
 

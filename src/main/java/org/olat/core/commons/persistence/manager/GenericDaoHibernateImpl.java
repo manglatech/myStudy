@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.olat.institute.feature.model.InstituteFeature;
+
 public abstract class GenericDaoHibernateImpl<T, PK extends Serializable> implements
 		GenericDao<T, PK> {
 	
@@ -16,12 +18,14 @@ public abstract class GenericDaoHibernateImpl<T, PK extends Serializable> implem
 	}
 	public T create(T o) {
 		getEntityManager().persist(o);
+		getEntityManager().flush();
 		return o;
 	}
     public List<T> create(List<T> entities){
     	for(T t: entities){
     		getEntityManager().persist(t);
     	}
+    	getEntityManager().flush();
     	return entities;
     }
     public abstract Class<T> getType();
@@ -42,12 +46,26 @@ public abstract class GenericDaoHibernateImpl<T, PK extends Serializable> implem
 				.setParameter("ids", ids).getResultList();
 		return list;
 	}
+	public List<T> loadAll(){
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("select f from ").append(type.getName())
+				.append(" f ");
+		
+		List<T> list = getEntityManager()
+				.createQuery(sb.toString(), type)
+				.getResultList();
+		
+		return list;
+	}
 	
 	public void merge(T o) {
 		getEntityManager().merge(o);
+		getEntityManager().flush();
 	}
 	public void remove(T o) {
 		getEntityManager().remove(o);
+		getEntityManager().flush();
 	}
 	public abstract EntityManager getEntityManager();
 	
@@ -71,5 +89,7 @@ public abstract class GenericDaoHibernateImpl<T, PK extends Serializable> implem
 		else sb.append(" ");
 		return true;
 	}
+	
+	
 
 }

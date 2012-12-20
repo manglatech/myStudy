@@ -78,7 +78,7 @@ public class FeeCategoryListController extends BasicController implements
 
 		mainVC = createVelocityContainer("listFeeCategory");
 		initButtons(ureq);
-		mainVC.put("feeList", tableC.getInitialComponent());
+		mainVC.put("feeCategoryList", tableC.getInitialComponent());
 
 		putInitialPanel(mainVC);
 
@@ -104,7 +104,7 @@ public class FeeCategoryListController extends BasicController implements
 		tableC.addMultiSelectAction("table.fee.category.delete", TABLE_ACTION_DELETE);
 		tableC.addMultiSelectAction("table.fee.category.duplicate", TABLE_ACTION_DUPLICATE);
 
-		createButton = LinkFactory.createButton("create.fee", mainVC, this);
+		createButton = LinkFactory.createButton("create.category.fee", mainVC, this);
 		createButton.setElementCssClass("o_sel_group_create");
 
 	}
