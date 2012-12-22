@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xsi:schemaLocation="
+  http://www.springframework.org/schema/beans 
+  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+  http://www.springframework.org/schema/context 
+  http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="org.olat.course.nodes.en" />
+	  
+	<!-- Course node spring config: Course Nodes are searched on the whole classpath, just place your CourceNodeConfiguration somewhere
+	on the classpath best as a jar. The xml file with ending ...Context.xml has do to be outside of the jar to get automatically loaded -->
+	
+	<!-- example for enabling/disabling course nodes 
+	<bean id="yourNode" class="org.olat.course.nodes.yourNode.XYCourseNodeConfiguration" scope="prototype" >
+		<constructor-arg value="${.XYCourseNodeConfiguration.enabled}" />
+	</bean>
+	-->
+ 
+	<bean id="bbfactory" class="org.olat.course.nodes.CourseNodeFactory"></bean>
+
+	<bean id="st" class="org.olat.course.nodes.st.STCourseNodeConfiguration" scope="prototype">
+		<property name="order" value="1" />
+		<!--
+			Optional configuration to define how many child nodes can be selected
+			in the ST node for the automated overview page with preview (peekview)
+			function. Define an integer value > 0.
+		-->
+		<property name="maxPeekviewChildNodes" value="10" /> 
+		<property name="featureId" value="21" />
+	</bean>
+
+	<bean id="sp" class="org.olat.course.nodes.sp.SPCourseNodeConfiguration" scope="prototype">
+		<property name="order" value="20" />
+		<property name="featureId" value="12" />
+	</bean>
+
+	<bean id="tu" class="org.olat.course.nodes.tu.TUCourseNodeConfiguration" scope="prototype">
+		<property name="order" value="30" />		
+		<property name="featureId" value="20" />
+	</bean>
+	
+	<bean id="cp" class="org.olat.course.nodes.cp.CPCourseNodeConfiguration" scope="prototype" >
+		<property name="order" value="40" />
+		<property name="featureId" value="1" />
+	</bean>
+	
+	<bean id="scorm" class="org.olat.course.nodes.scorm.ScormCourseNodeConfiguration" scope="prototype">
+		<property name="order" value="50" />
+		<property name="featureId" value="2" />
+	</bean>	
+	
+	<bean id="fo" class="org.olat.course.nodes.fo.FOCourseNodeConfiguration" scope="prototype">
+		<property name="order" value="90" />
+		<property name="featureId" value="13" />
+	</bean>
+
+	<bean id="wiki" class="org.olat.course.nodes.wiki.WikiCourseNodeConfiguration" scope="prototype">
+		<property name="order" value="60" />
+		<property name="featureId" value="4" />
+	</bean>
+
+	<bean id="podcast" class="org.olat.course.nodes.feed.podcast.PodcastCourseNodeConfiguration" scope="prototype">
+		<property name="order" value="70" />
+		<property name="featureId" value="5" />
+	</bean>
+	
+	<bean id="blog" class="org.olat.course.nodes.feed.blog.BlogCourseNodeConfiguration" scope="prototype">
+		<property name="order" value="80" />
+		<property name="featureId" value="6" />
+	</bean>
+
+	<bean id="dialog" class="org.olat.course.nodes.dialog.DialogCourseNodeConfiguration" scope="prototype">
+		<property name="order" value="100" />
+		<property name="featureId" value="14" />
+	</bean>
+	
+	<bean id="bc" class="org.olat.course.nodes.bc.BCCourseNodeConfiguration" scope="prototype">
+		<property name="order" value="51" />
+		<property name="featureId" value="18" />
+	</bean>
+	
+	<bean id="ms" class="org.olat.course.nodes.ms.MSCourseNodeConfiguration" scope="prototype">
+		<property name="order" value="120" />
+		<property name="featureId" value="22" />
+	</bean>
+	
+	<bean id="ta" class="org.olat.course.nodes.ta.TACourseNodeConfiguration" scope="prototype">
+		<property name="order" value="130" />
+		<property name="featureId" value="19" />
+	</bean>
+			
+	<bean id="projectbroker" class="org.olat.course.nodes.projectbroker.ProjectBrokerNodeConfiguration" scope="prototype">
+		<property name="order" value="181" />
+		<property name="featureId" value="23" />
+	</bean>
+
+	<bean id="iqtest" class="org.olat.course.nodes.iq.IQTESTCourseNodeConfiguration" scope="prototype" depends-on="qtiResultManager">
+		<property name="order" value="150" />
+		<property name="featureId" value="8" />
+	</bean>
+	
+	<bean id="iqself" class="org.olat.course.nodes.iq.IQSELFCourseNodeConfiguration" scope="prototype">
+		<property name="order" value="160" />
+		<property name="featureId" value="15" />
+	</bean>
+	
+	<bean id="iqsurv" class="org.olat.course.nodes.iq.IQSURVCourseNodeConfiguration" scope="prototype">
+		<property name="order" value="170" />
+		<property name="featureId" value="9" />
+	</bean>
+	
+	<bean id="en" class="org.olat.course.nodes.en.ENCourseNodeConfiguration" scope="prototype">
+		<property name="order" value="180" />
+		<property name="featureId" value="16" />
+	</bean>
+
+	<bean id="co" class="org.olat.course.nodes.co.COCourseNodeConfiguration" scope="prototype">
+		<property name="order" value="190" />
+		<property name="featureId" value="24" />
+	</bean>
+		
+	<bean id="cal" class="org.olat.course.nodes.cal.CalCourseNodeConfiguration" scope="prototype">
+		<property name="order" value="200" />
+		<property name="featureId" value="17" />
+	</bean>
+</beans>

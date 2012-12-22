@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+  http://www.springframework.org/schema/beans 
+  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+  http://www.springframework.org/schema/context 
+  http://www.springframework.org/schema/context/spring-context-3.0.xsd
+  http://www.springframework.org/schema/tx
+  http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="org.olat.institute.feature.manager" />
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="featureLoader" />
+		<property name="targetMethod" value="init" />
+	</bean>
+
+	<bean id="fc" class="org.olat.institute.feature.manager.FC">
+		<property name="persistedProperties">
+			<bean class="org.olat.core.configuration.PersistedProperties"
+				scope="prototype" init-method="init" destroy-method="destroy">
+				<constructor-arg index="0" ref="coordinatorManager"/>
+				<constructor-arg index="1" ref="fc" />
+			</bean>
+		</property>
+		
+	</bean>
+
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="fc" />
+		<property name="targetMethod" value="init" />
+		<property name="arguments">
+			<value>
+				<!-- Enabled to Check Feature Control System. -->
+				InstituteFeatureCheckEnabled = ${institute.featuresCheckEnabled}
+			</value>
+		</property>
+	</bean>
+
+</beans>

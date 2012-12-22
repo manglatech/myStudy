@@ -1,12 +1,16 @@
 package org.olat.institute.feature.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-import org.olat.core.commons.persistence.OLATPersistenceObject;
+import org.olat.core.id.Persistable;
 
-public class InstituteFeatureImpl extends OLATPersistenceObject implements InstituteFeature {
+@Entity
+@Table(name = "o_institute_features_control")
+public class InstituteFeatureImpl implements InstituteFeature {
 
 	private static final long serialVersionUID = 5201149276076998083L;
 	
@@ -24,6 +28,9 @@ public class InstituteFeatureImpl extends OLATPersistenceObject implements Insti
 	
 	@Column(name = "feature_name")
 	private String featureName;
+
+	@Column(name = "status")
+	private Integer status;
 
 	public String getInstituteId() {
 		return instituteId;
@@ -54,5 +61,19 @@ public class InstituteFeatureImpl extends OLATPersistenceObject implements Insti
 	}
 	public Long getKey() {
 		return key;
+	}
+
+	@Override
+	public boolean equalsByPersistableKey(Persistable persistable) {
+		if (this.getKey().compareTo(persistable.getKey()) == 0)
+			return true;
+		else
+			return false;
+	}
+	public Integer getStatus(){
+		return status;
+	}
+	public void setStatus(Integer status){
+		this.status = status;
 	}
 }

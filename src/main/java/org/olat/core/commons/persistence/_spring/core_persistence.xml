@@ -80,6 +80,7 @@
 		<class>org.olat.finance.fee.model.FeeIdentityMappingImpl</class>
 		<class>org.olat.finance.user.model.UserAccountViewImpl</class>
 		<class>org.olat.finance.user.payment.model.UserPaymentInfoImpl</class>
+		<class>org.olat.institute.feature.model.InstituteFeatureImpl</class>
 		
 		<properties>
 			<property name="hibernate.generate_statistics" value="true"/>
