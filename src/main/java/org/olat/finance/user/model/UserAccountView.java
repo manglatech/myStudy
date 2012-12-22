@@ -12,8 +12,9 @@ public interface UserAccountView extends InstituteEnabled, Serializable {
 	public FeeCategory getFeeCategory();
 	public abstract Long getPaidAmount();
 	public abstract Long getRemainingAmount();
-	public abstract String getPaidStatus();
+	public abstract String getPaidStatusAsStr();
 	public abstract String getInstituteId();
 	public abstract Long getTotalAmount();
+	public Integer getPaidStatusId();
 	
 }

@@ -17,6 +17,7 @@ public class UserAccountSearchEvent extends Event implements StateEntry {
 	private boolean isPaidStatus;
 	private boolean isUnPaidStatus;
 	private boolean isPartialPaidStatus;
+	private boolean isMarkAsPaid;
 	
 	private static final String command = "userAccountSearch";
 	
@@ -79,6 +80,14 @@ public class UserAccountSearchEvent extends Event implements StateEntry {
 		this.isPartialPaidStatus = isPartialPaidStatus;
 	}
 	
+	public boolean isMarkAsPaid() {
+		return isMarkAsPaid;
+	}
+
+	public void setMarkAsPaid(boolean isMarkAsPaid) {
+		this.isMarkAsPaid = isMarkAsPaid;
+	}
+
 	public UserAccountSearchParams convertToSearchBusinessGroupParams(Identity identity) {
 		UserAccountSearchParams params = new UserAccountSearchParams();
 		
@@ -93,6 +102,8 @@ public class UserAccountSearchEvent extends Event implements StateEntry {
 			params.setPaidStatus(PaidStatus.PARTIAL_PAID);
 		}else if(isUnPaidStatus){
 			params.setPaidStatus(PaidStatus.NOT_PAID);
+		}else if(isMarkAsPaid){
+			params.setPaidStatus(PaidStatus.MARK_AS_PAID);
 		}
 		return params;
 	}
@@ -108,6 +119,7 @@ public class UserAccountSearchEvent extends Event implements StateEntry {
 		clone.isPaidStatus = isPaidStatus;
 		clone.isPartialPaidStatus = isPartialPaidStatus;
 		clone.isUnPaidStatus = isUnPaidStatus;
+		clone.isMarkAsPaid = isMarkAsPaid;
 		
 		return clone;
 	}

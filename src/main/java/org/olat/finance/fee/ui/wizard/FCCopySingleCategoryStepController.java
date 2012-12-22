@@ -26,7 +26,6 @@ public class FCCopySingleCategoryStepController extends StepFormBasicController 
 		
 		this.originalCategory = originalCategory;
 		feeFormController = new FeeCategoryFormController(ureq, getWindowControl(), originalCategory, mainForm);
-		feeFormController.setEmbbeded(true);
 		
 		listenTo(feeFormController);
 		feeFormController.getFeeName().setValue(originalCategory.getName() + " " + translate("fccopywizard.copyform.name.copy"));	

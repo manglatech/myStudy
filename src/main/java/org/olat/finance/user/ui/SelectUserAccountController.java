@@ -146,9 +146,9 @@ public class SelectUserAccountController extends BasicController implements
 				UserAccountView view = userAccountSearchListModel.getObject(te.getRowId());
 				if (actionid.equals(TABLE_ACTION_MAKE_PAYMENT)) {
 					doPaymentForUser(ureq, view);
-				}else if(actionid.equals(TABLE_ACTION_ASSIGN_TEMPLATE)){
+				}/*else if(actionid.equals(TABLE_ACTION_ASSIGN_TEMPLATE)){
 					doViewFee(ureq, view);
-				}else if(actionid.equals(TABLE_ACTION_PAYMENT_DETAILS)){
+				}*/else if(actionid.equals(TABLE_ACTION_PAYMENT_DETAILS)){
 					doViewAccountDetails(ureq,view);
 				}else if(actionid.equals(TABLE_ACTION_TEMPLLATE_DETAILS)){
 					doViewFeeCategoryDetails(ureq, view);
@@ -169,7 +169,7 @@ public class SelectUserAccountController extends BasicController implements
 			cmc.deactivate();
 			removeAsListenerAndDispose(cmc);
 			reloadModel();
-		}else if (source == assignController){
+		}/*else if (source == assignController){
 			if(event instanceof SingleFeeCategoryChosenEvent){
 				SingleFeeCategoryChosenEvent feeCategory = (SingleFeeCategoryChosenEvent) event;
 				doAssignFee(ureq, feeCategory);
@@ -177,7 +177,7 @@ public class SelectUserAccountController extends BasicController implements
 				removeAsListenerAndDispose(cmc);
 				reloadModel();
 			}
-		}
+		}*/
 
 		super.event(ureq, source, event);
 	}
@@ -191,7 +191,7 @@ public class SelectUserAccountController extends BasicController implements
 		fireEvent(ureq, new SingleFeeCategoryChosenEvent(view.getFeeCategory()));
 	}
 
-	protected void doViewFee(UserRequest ureq, UserAccountView view) {
+	/*protected void doViewFee(UserRequest ureq, UserAccountView view) {
 		removeAsListenerAndDispose(assignController);
 		assignController = new AssingFeeCategoryListController(ureq, getWindowControl(), view);
 		listenTo(assignController);
@@ -202,13 +202,13 @@ public class SelectUserAccountController extends BasicController implements
 		cmc.activate();
 		listenTo(cmc);
 		
-	}
+	}*/
 	
-	protected void doAssignFee(UserRequest ureq, SingleFeeCategoryChosenEvent feeCategory) {
-		FeeCategory category = feeCategory.getChosenFeeCategory();
-		UserAccountView view = assignController.getView();
-		userAccountService.assingFeeCategory(category,view);
-	}
+//	protected void doAssignFee(UserRequest ureq, SingleFeeCategoryChosenEvent feeCategory) {
+//		FeeCategory category = feeCategory.getChosenFeeCategory();
+//		UserAccountView view = assignController.getView();
+//		userAccountService.assingFeeCategory(category,view);
+//	}
 
 	private void reloadModel() {
 		updateTableModel(lastSearchParams);

@@ -2,11 +2,12 @@ package org.olat.finance.user.util;
 
 public enum PaidStatus {
 	
-	PAID_IN_FULL(0,"Paid In Full"), 
+	NOT_DEFINE(0,"Not Define"), 
 	PAID(1,"Paid"),
 	NOT_PAID(2,"Not Paid"),
 	PARTIAL_PAID(3,"Partial Paid"),
-	OVER_PAID(4,"Over Paid");
+	OVER_PAID(4,"Over Paid"),
+	MARK_AS_PAID(5,"Mark As Paid");
 	
 	private Integer id; 
 	private String value;
@@ -34,8 +35,8 @@ public enum PaidStatus {
 
 	public static PaidStatus find(Integer paidStatus) {
 		
-		if(PAID_IN_FULL.getId() == paidStatus)
-			return PAID_IN_FULL;
+		if(NOT_DEFINE.getId() == paidStatus)
+			return NOT_DEFINE;
 		else if(PAID.getId() == paidStatus)
 			return PAID;
 		else if(NOT_PAID.getId() == paidStatus)
@@ -44,6 +45,8 @@ public enum PaidStatus {
 			return PARTIAL_PAID;
 		else if(OVER_PAID.getId() == paidStatus)
 			return OVER_PAID;
+		else if(MARK_AS_PAID.getId() == paidStatus)
+			return MARK_AS_PAID;
 		
 		return null;
 	}

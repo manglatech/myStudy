@@ -16,7 +16,7 @@ import org.olat.basesecurity.IdentityImpl;
 import org.olat.core.id.Identity;
 import org.olat.finance.fee.model.FeeCategory;
 import org.olat.finance.fee.model.FeeCategoryImpl;
-import org.olat.finance.user.util.AccountUtil;
+import org.olat.finance.user.util.PaidStatus;
 
 @Entity
 @Table(name = "o_user_account_summary_v")
@@ -44,6 +44,9 @@ public class UserAccountViewImpl implements UserAccountView {
 	@Column(name = "institute_id")
 	private String instituteId;
 	
+	@Column(name = "paid_status")
+	private Integer paidStatusId;
+	
 	public Identity getIdentity() {
 		return identity;
 	}
@@ -69,26 +72,11 @@ public class UserAccountViewImpl implements UserAccountView {
 	}
 	@Override
 	@Transient
-	public String getPaidStatus() {
-		String status = "";
-		if (totalAmount == null)
-			status = AccountUtil.NOT_ASSIGNED;
-		else {
-			if (getRemainingAmount() > 0) {
-
-				if (getRemainingAmount().longValue() == getTotalAmount()
-						.longValue()) {
-					status = AccountUtil.NOT_PAID;
-				} else {
-					status = AccountUtil.PARTIAL_PAID;
-				}
-			}else if(getRemainingAmount().longValue() == 0) {
-				status = AccountUtil.PAID;
-			}else{
-				status = AccountUtil.OVER_PAID;
-			}
+	public String getPaidStatusAsStr() {
+		if(paidStatusId != null){
+			PaidStatus.find(paidStatusId).getValue();
 		}
-		return status;
+		return PaidStatus.NOT_DEFINE.toString();
 	}
 	@Override
 	public String getInstituteId() {
@@ -97,6 +85,10 @@ public class UserAccountViewImpl implements UserAccountView {
 	@Override
 	public void setInstituteId(String id) {
 	}
+	public Integer getPaidStatusId() {
+		return paidStatusId;
+	}
+	
 }
 
 class UserAccountViewPK implements Serializable {

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.olat.core.gui.components.table.DefaultTableDataModel;
 import org.olat.finance.user.model.UserAccountView;
+import org.olat.finance.user.util.PaidStatus;
 
 public class UserAccountSearchDataModel extends
 		DefaultTableDataModel<UserAccountView> {
@@ -46,7 +47,11 @@ public class UserAccountSearchDataModel extends
 			case 5:
 				return userAccount.getRemainingAmount();
 			case 6:
-				return userAccount.getPaidStatus();
+				if(userAccount.getPaidStatusId() == null){
+					return PaidStatus.NOT_DEFINE.getValue();
+				}else{
+					return PaidStatus.find(userAccount.getPaidStatusId()).getValue();
+				}
 			case 7:
 				if (userAccount.getTotalAmount() > 0) {
 					return "Pay Now!";

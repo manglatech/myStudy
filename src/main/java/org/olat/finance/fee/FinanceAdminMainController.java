@@ -52,9 +52,9 @@ import org.olat.finance.fee.model.SingleFeeCategoryChosenEvent;
 import org.olat.finance.fee.ui.FeeCategoryAdminContoller;
 import org.olat.finance.fee.ui.FeeCategoryListController;
 import org.olat.finance.fee.ui.FeeListController;
+import org.olat.finance.user.ui.CreateUserAccountController;
 import org.olat.finance.user.ui.SelectUserAccountController;
 import org.olat.finance.user.ui.UserAccountDetailController;
-import org.olat.finance.user.ui.UserAccountSearchController;
 import org.olat.util.logging.activity.LoggingResourceable;
 
 /**
@@ -77,6 +77,7 @@ public class FinanceAdminMainController extends MainLayoutBasicController {
 	private static final Object FINANCE_ADMIN_UOBJECT = "financeadmin";
 	private static final Object FEE_ADMIN_UOBJECT = "feeadmin";
 	private static final Object USER_ACCOUNT_PREDEFINE_SEARCH_LIST_UOBJECT = "userAccountPredefineSearch";
+	private static final Object CREATE_USER_ACCOUNT_LIST_UOBJECT = "createUserAccount";
 	OLog log = Tracing.createLoggerFor(this.getClass());
 
 	private MenuTree olatMenuTree;
@@ -215,6 +216,11 @@ public class FinanceAdminMainController extends MainLayoutBasicController {
 			addToHistory(ureq, bwControl);
 			listenTo(contentCtr);
 			return contentCtr.getInitialComponent();
+		} else if (uobject.equals(CREATE_USER_ACCOUNT_LIST_UOBJECT)) {
+			contentCtr = new CreateUserAccountController(ureq, bwControl);
+			addToHistory(ureq, bwControl);
+			listenTo(contentCtr);
+			return contentCtr.getInitialComponent();
 		} else {
 			throw new AssertException(
 					"did not expect to land here in UserAdminMainController this is because uboject is "
@@ -238,6 +244,13 @@ public class FinanceAdminMainController extends MainLayoutBasicController {
 		gtnChild.setTitle(translator.translate("user.account.search.list"));
 		gtnChild.setUserObject(USER_ACCOUNT_SEARCH_LIST_UOBJECT);
 		gtnChild.setAltText(translator.translate("user.account.search.list.alt"));
+		admin.setDelegate(gtnChild);
+		admin.addChild(gtnChild);
+		
+		gtnChild = new GenericTreeNode();
+		gtnChild.setTitle(translator.translate("user.create.account"));
+		gtnChild.setUserObject(CREATE_USER_ACCOUNT_LIST_UOBJECT);
+		gtnChild.setAltText(translator.translate("user.create.account.alt"));
 		admin.setDelegate(gtnChild);
 		admin.addChild(gtnChild);
 		

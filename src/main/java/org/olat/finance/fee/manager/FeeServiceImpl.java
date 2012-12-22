@@ -13,6 +13,7 @@ import org.olat.finance.fee.model.FeeIdentityMappingImpl;
 import org.olat.finance.fee.model.FeeMapping;
 import org.olat.finance.fee.model.FeeMappingImpl;
 import org.olat.finance.fee.model.SearchFeeParams;
+import org.olat.finance.user.util.PaidStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -140,6 +141,7 @@ public class FeeServiceImpl implements FeeService {
 		FeeIdentityMapping mapping = new FeeIdentityMappingImpl();
 		mapping.setFeeCategory(feeCategory);
 		mapping.setIdentity(identity);
+		mapping.setPaid(PaidStatus.NOT_PAID.getId());
 		feeIdentityMappingDao.create(mapping);
 	}
 	

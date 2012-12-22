@@ -18,17 +18,18 @@ import org.olat.core.id.context.ContextEntry;
 import org.olat.core.id.context.StateEntry;
 import org.olat.core.util.StringHelper;
 
-public class UserAccountSearchController extends FormBasicController implements Activateable2  {
+public class CreateUserAccountSearchController extends FormBasicController implements Activateable2  {
 
 	private TextElement userName; 
-	private TextElement templateName;
+	private TextElement groupName;
+	private TextElement className;
 	private FormSubmit searchButton;
-	private SingleSelection paidStatusEl;
+	private SingleSelection assignedStatusEl;
 	//private MultipleSelectionElement headlessEl;
 	
-	private String[] paidStatusKeys = {"all", "unPaid", "paid", "partialPaid","markAsPaid"};
+	private String[] accountStatusKeys = {"unAssigned","assigned"};
 
-	public UserAccountSearchController(UserRequest ureq, WindowControl wControl) {
+	public CreateUserAccountSearchController(UserRequest ureq, WindowControl wControl) {
 		super(ureq, wControl);
 		initForm(ureq);
 	}
@@ -36,22 +37,24 @@ public class UserAccountSearchController extends FormBasicController implements 
 	@Override
 	protected void initForm(FormItemContainer formLayout, Controller listener, UserRequest ureq) {
 		
-		uifactory.addStaticTextElement("heading1", null, translate("search.user.account.info"), formLayout);
+		uifactory.addStaticTextElement("heading1", null, translate("create.user.account.form.info"), formLayout);
 		
 		userName = uifactory.addTextElement("usc_username", "usc.username", 255, "", formLayout);
 		userName.setFocus(true);
 		userName.setDisplaySize(28);
 		
-		templateName = uifactory.addTextElement("usc_templatename", "usc.templatename", 255, "", formLayout);
-		templateName.setDisplaySize(28);
+		groupName = uifactory.addTextElement("usc_groupname", "usc.groupname", 255, "", formLayout);
+		groupName.setDisplaySize(28);
 		
-		//roles
-		String[] paidStatusValues = new String[paidStatusKeys.length];
-		for(int i=paidStatusKeys.length; i-->0; ) {
-			paidStatusValues[i] = translate("search." + paidStatusKeys[i]);
+		className = uifactory.addTextElement("usc_coursegname", "usc.coursename", 255, "", formLayout);
+		className.setDisplaySize(28);
+		
+		String[] accountStatusValues = new String[accountStatusKeys.length];
+		for(int i=accountStatusKeys.length; i-->0; ) {
+			accountStatusValues[i] = translate("search." + accountStatusKeys[i]);
 		}
-		paidStatusEl = uifactory.addRadiosHorizontal("paidStatus", "search.paid.status", formLayout, paidStatusKeys, paidStatusValues);
-		paidStatusEl.select("unPaid", true);
+		assignedStatusEl = uifactory.addRadiosHorizontal("accountStatus", "search.account.status", formLayout, accountStatusKeys, accountStatusValues);
+		assignedStatusEl.select("unAssigned", true);
 
 		FormLayoutContainer buttonLayout = FormLayoutContainer.createButtonLayout("button_layout", getTranslator());
 		formLayout.add(buttonLayout);
@@ -64,17 +67,18 @@ public class UserAccountSearchController extends FormBasicController implements 
 	}
 	
 	
-	public String getTemplateName() {
-		return templateName.getValue();
+	public String getGroupName() {
+		return groupName.getValue();
 	}
-	
-	
+	public String getCourseName() {
+		return className.getValue();
+	}
 	public String getUserName() {
 		return userName.getValue();
 	}
 	
 	public boolean isEmpty() {
-		return templateName.isEmpty() && userName.isEmpty();
+		return groupName.isEmpty() && userName.isEmpty() && className.isEmpty();
 	}
 	
 	@Override
@@ -90,8 +94,8 @@ public class UserAccountSearchController extends FormBasicController implements 
 
 	@Override
 	public void activate(UserRequest ureq, List<ContextEntry> entries, StateEntry state) {
-		if(state instanceof UserAccountSearchEvent) {
-			setSearchEvent((UserAccountSearchEvent)state);
+		if(state instanceof CreateUserAccountSearchEvent) {
+			setSearchEvent((CreateUserAccountSearchEvent)state);
 		}
 	}
 	@Override
@@ -105,39 +109,35 @@ public class UserAccountSearchController extends FormBasicController implements 
 			fireSearchEvent(ureq);
 		}
 	}
-	private void setSearchEvent(UserAccountSearchEvent e) {
+	private void setSearchEvent(CreateUserAccountSearchEvent e) {
 		if(StringHelper.containsNonWhitespace(e.getUserName())) {
 			userName.setValue(e.getUserName());
 		}
-		if(StringHelper.containsNonWhitespace(e.getTemplateName())) {
-			templateName.setValue(e.getTemplateName());
+		if(StringHelper.containsNonWhitespace(e.getGroupName())) {
+			groupName.setValue(e.getGroupName());
 		}
-		if(paidStatusEl != null) {
-			if(e.isAllStatus()) {
-				paidStatusEl.select("all", true);
-			} else if(e.isUnPaidStatus()) {
-				paidStatusEl.select("unPaid", true);
-			} else if(e.isPaidStatus()) {
-				paidStatusEl.select("paid", true);
-			} else if(e.isPartialPaidStatus()) {
-				paidStatusEl.select("partialPaid", true);
-			} else if(e.isMarkAsPaid()) {
-				paidStatusEl.select("markAsPaid", true);
+		if(StringHelper.containsNonWhitespace(e.getCourseName())) {
+			groupName.setValue(e.getCourseName());
+		}
+		
+		if(assignedStatusEl != null) {
+			if(e.isAssignedStatus()) {
+				assignedStatusEl.select("assigned", true);
+			} else if(e.isUnAssignedStatus()) {
+				assignedStatusEl.select("unAssigned", true);
 			}
 		}
 	}
 
 	private void fireSearchEvent(UserRequest ureq) {
-		UserAccountSearchEvent e = new UserAccountSearchEvent();
+		CreateUserAccountSearchEvent e = new CreateUserAccountSearchEvent();
 		e.setUserName(getUserName());
-		e.setTemplateName(getTemplateName());
+		e.setGroupName(getGroupName());
+		e.setCourseName(getCourseName());
 		
-		if(paidStatusEl != null && paidStatusEl.isOneSelected()) {
-			e.setAllStatus(paidStatusEl.isSelected(0));
-			e.setUnPaidStatus(paidStatusEl.isSelected(1));
-			e.setPaidStatus(paidStatusEl.isSelected(2));
-			e.setPartialPaidStatus(paidStatusEl.isSelected(3));
-			e.setMarkAsPaid(paidStatusEl.isSelected(4));
+		if(assignedStatusEl != null && assignedStatusEl.isOneSelected()) {
+			e.setAssignedStatus(assignedStatusEl.isSelected(0));
+			e.setUnAssignedStatus(assignedStatusEl.isSelected(1));
 		}
 		fireEvent(ureq, e);
 	}
