@@ -27,6 +27,8 @@ public class UserAccountListTDM extends DefaultTableDataModel<UserPaymentInfo> {
 			return f.getKey();
 		case 1:
 			return f.getPaidAmount();
+		case 2:
+			return f.getCreationDate();
 		default:
 			return "error";
 		}
@@ -36,7 +38,7 @@ public class UserAccountListTDM extends DefaultTableDataModel<UserPaymentInfo> {
 	 * @see org.olat.core.gui.components.table.TableDataModel#getColumnCount()
 	 */
 	public int getColumnCount() {
-		return 2;
+		return 3;
 	}
 
 	public Object createCopyWithEmptyList() {

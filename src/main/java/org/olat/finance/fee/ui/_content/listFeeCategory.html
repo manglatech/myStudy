@@ -1,12 +1,11 @@
-$r.render("feeList")
+$r.render("feeCategoryList")
 
-#if($r.available("create.fee"))
+#if($r.available("create.category.fee"))
 	<div class="b_clearfix">
-		<p>$r.translate("create.fee.description")</p>
-		$r.render("create.fee")
+		<p>$r.translate("create.fee.template.description")</p>
+		$r.render("create.category.fee")
 	</div>
 #end
-IN TEMP
 #if($r.available("add.fee"))
 	<div class="b_clearfix">
 		<p>$r.translate("create.fee.description")</p>

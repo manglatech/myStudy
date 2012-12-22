@@ -58,8 +58,14 @@ class FeeCategoryFormController extends FormBasicController {
 	public FeeCategoryFormController(UserRequest ureq,
 			WindowControl windowControl, FeeCategory originalCategory,
 			Form rootForm) {
+		this(ureq,windowControl,originalCategory,rootForm,false);	
+	}
+	public FeeCategoryFormController(UserRequest ureq,
+			WindowControl windowControl, FeeCategory originalCategory,
+			Form rootForm, boolean embadded) {
 		super(ureq, windowControl, FormBasicController.LAYOUT_DEFAULT, null, rootForm);
 		this.feeCategory = originalCategory;
+		this.embbeded = embadded;
 		initForm(ureq);	
 	}
 
@@ -75,7 +81,7 @@ class FeeCategoryFormController extends FormBasicController {
 		feeDesc.setMandatory(true);
 		feeDesc.setDisplaySize(30);
 		
-		if(isEmbbeded())
+		if(!isEmbbeded())
 			uifactory.addFormSubmitButton("save", "submit.save", formLayout);
 	}	
 	

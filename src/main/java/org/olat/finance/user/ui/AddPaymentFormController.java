@@ -28,7 +28,7 @@ public class AddPaymentFormController extends FormBasicController {
 		protected void initForm(FormItemContainer formLayout, Controller listener, UserRequest ureq) {						
 			
 			uifactory.addStaticTextElement("heading1", null, translate("new.add.feeform.please.enter"), formLayout);
-			paymentAmount = uifactory.addIntegerElement(PAYMENTNAME, "Name", 0, formLayout);
+			paymentAmount = uifactory.addIntegerElement(PAYMENTNAME, "payment.amount", 0, formLayout);
 			paymentAmount.setMandatory(true);
 			paymentAmount.setDisplaySize(30);
 			

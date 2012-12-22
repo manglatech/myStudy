@@ -4,9 +4,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.olat.core.gui.components.table.DefaultTableDataModel;
-import org.olat.finance.fee.ui.FeeCategoryListTableDataModel;
 import org.olat.finance.user.model.UserAccountView;
-import org.olat.group.ui.main.BGTableItem;
+import org.olat.finance.user.util.PaidStatus;
 
 public class UserAccountSearchDataModel extends
 		DefaultTableDataModel<UserAccountView> {
@@ -23,7 +22,7 @@ public class UserAccountSearchDataModel extends
 
 	@Override
 	public int getColumnCount() {
-		return 10;
+		return 9;
 	}
 
 	public void setEntries(List<UserAccountView> data) {
@@ -36,28 +35,30 @@ public class UserAccountSearchDataModel extends
 		if (userAccount != null) {
 			switch (col) {
 			case 0:
-				return userAccount.getName();
+				return userAccount.getIdentity().getName();
 			case 1:
-				return userAccount.getEmail();
+				return userAccount.getIdentity().getKey();
 			case 2:
-				return userAccount.getGroupName();
+				return userAccount.getFeeCategory().getName();
 			case 3:
-				return userAccount.getTemplateName();
-			case 4:
 				return userAccount.getTotalAmount();
-			case 5:
+			case 4:
 				return userAccount.getPaidAmount();
-			case 6:
+			case 5:
 				return userAccount.getRemainingAmount();
+			case 6:
+				if(userAccount.getPaidStatusId() == null){
+					return PaidStatus.NOT_DEFINE.getValue();
+				}else{
+					return PaidStatus.find(userAccount.getPaidStatusId()).getValue();
+				}
 			case 7:
-				return userAccount.getPaidStatus();
-			case 8:
 				if (userAccount.getTotalAmount() > 0) {
 					return "Pay Now!";
 				}
 				return null;
-			case 9:
-				if(userAccount.getTemplateId() == null){
+			case 8:
+				if(userAccount.getFeeCategory() == null){
 					return "Assign";
 				}
 				return null;
@@ -77,8 +78,7 @@ public class UserAccountSearchDataModel extends
 
 	public enum Cols {
 
-		name("table.header.name"), email("table.header.email"), groupname(
-				"table.header.groupname"), templatename(
+		name("table.header.name"), email("table.header.email"), templatename(
 				"table.header.templatename"), totalamount(
 				"table.header.totalamount"), paidamount(
 				"table.header.paidamount"), remainingamount(

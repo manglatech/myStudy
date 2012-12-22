@@ -9,8 +9,9 @@ import org.olat.finance.fee.manager.FeeService;
 import org.olat.finance.fee.model.FeeCategory;
 import org.olat.finance.fee.model.FeeIdentityMapping;
 import org.olat.finance.user.model.UserAccountView;
+import org.olat.finance.user.ui.CreateUserAccountSearchParams;
 import org.olat.finance.user.ui.UserAccountSearchParams;
-import org.olat.finance.user.util.AccountUtil;
+import org.olat.finance.user.util.PaidStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,7 @@ public class UserAccountServiceImpl implements UserAccountService{
 	public void markAccountAsPaidInFull(Long identityId, Long categoryId) {
 		FeeIdentityMapping mapping = feeIdentityMappingDao.searchFeeMapping(identityId, categoryId);
 		if(mapping != null){
-			mapping.setPaid(AccountUtil.PAID_IN_FULL);
+			mapping.setPaid(PaidStatus.MARK_AS_PAID.getId());
 			feeIdentityMappingDao.merge(mapping);
 		}
 	}
@@ -44,12 +45,18 @@ public class UserAccountServiceImpl implements UserAccountService{
 	@Override
 	public void markAccountAsPaidInFull(List<UserAccountView> selectedItems) {
 		for(UserAccountView view : selectedItems){
-			markAccountAsPaidInFull(view.getIdentityId(), view.getTemplateId());
+			markAccountAsPaidInFull(view.getIdentity().getKey(), view.getFeeCategory().getKey());
 		}
 	}
 	@Override
 	public void assingFeeCategory(FeeCategory category, UserAccountView view) {
-		Identity identity = BaseSecurityManager.getInstance().loadIdentityByKey(view.getIdentityId());
+		Identity identity = BaseSecurityManager.getInstance().loadIdentityByKey(view.getIdentity().getKey());
 		feeService.addIdentitiesToFeeCategory(identity, category);
+	}
+	@Override
+	public List<Identity> searchUserAccountSummary(
+			CreateUserAccountSearchParams params) {
+		List<Identity> identities = userAccountDao.searchUserAccountSummary(params);
+		return identities;
 	}
 }

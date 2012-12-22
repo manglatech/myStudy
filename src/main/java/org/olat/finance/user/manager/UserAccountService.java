@@ -2,8 +2,10 @@ package org.olat.finance.user.manager;
 
 import java.util.List;
 
+import org.olat.core.id.Identity;
 import org.olat.finance.fee.model.FeeCategory;
 import org.olat.finance.user.model.UserAccountView;
+import org.olat.finance.user.ui.CreateUserAccountSearchParams;
 import org.olat.finance.user.ui.UserAccountSearchParams;
 
 public interface UserAccountService {
@@ -16,5 +18,8 @@ public interface UserAccountService {
 	void markAccountAsPaidInFull(List<UserAccountView> selectedItems);
 
 	void assingFeeCategory(FeeCategory category, UserAccountView view);
+
+	List<Identity> searchUserAccountSummary(
+			CreateUserAccountSearchParams params);
 
 }

@@ -19,5 +19,5 @@ public interface FeeCategory extends Persistable, ModifiedInfo, CreateInfo{
 	
 	public Set<FeeMapping> getFeeMapping();
 	public void setFeeMapping(Set<FeeMapping> feeMapping);
-
+	
 }

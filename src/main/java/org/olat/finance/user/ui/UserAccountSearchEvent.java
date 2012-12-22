@@ -4,6 +4,7 @@ import org.olat.core.gui.control.Event;
 import org.olat.core.id.Identity;
 import org.olat.core.id.context.StateEntry;
 import org.olat.core.util.StringHelper;
+import org.olat.finance.user.util.PaidStatus;
 
 public class UserAccountSearchEvent extends Event implements StateEntry {
 	
@@ -16,6 +17,7 @@ public class UserAccountSearchEvent extends Event implements StateEntry {
 	private boolean isPaidStatus;
 	private boolean isUnPaidStatus;
 	private boolean isPartialPaidStatus;
+	private boolean isMarkAsPaid;
 	
 	private static final String command = "userAccountSearch";
 	
@@ -78,6 +80,14 @@ public class UserAccountSearchEvent extends Event implements StateEntry {
 		this.isPartialPaidStatus = isPartialPaidStatus;
 	}
 	
+	public boolean isMarkAsPaid() {
+		return isMarkAsPaid;
+	}
+
+	public void setMarkAsPaid(boolean isMarkAsPaid) {
+		this.isMarkAsPaid = isMarkAsPaid;
+	}
+
 	public UserAccountSearchParams convertToSearchBusinessGroupParams(Identity identity) {
 		UserAccountSearchParams params = new UserAccountSearchParams();
 		
@@ -85,6 +95,16 @@ public class UserAccountSearchEvent extends Event implements StateEntry {
 		params.setUserName((StringHelper.containsNonWhitespace(userName)) ? userName : null);
 		params.setTemplateName((StringHelper.containsNonWhitespace(templateName)) ? templateName : null);
 		params.setInstituteId(identity.getInstituteId());
+		
+		if(isPaidStatus){
+			params.setPaidStatus(PaidStatus.PAID);
+		}else if(isPartialPaidStatus){
+			params.setPaidStatus(PaidStatus.PARTIAL_PAID);
+		}else if(isUnPaidStatus){
+			params.setPaidStatus(PaidStatus.NOT_PAID);
+		}else if(isMarkAsPaid){
+			params.setPaidStatus(PaidStatus.MARK_AS_PAID);
+		}
 		return params;
 	}
 
@@ -99,6 +119,7 @@ public class UserAccountSearchEvent extends Event implements StateEntry {
 		clone.isPaidStatus = isPaidStatus;
 		clone.isPartialPaidStatus = isPartialPaidStatus;
 		clone.isUnPaidStatus = isUnPaidStatus;
+		clone.isMarkAsPaid = isMarkAsPaid;
 		
 		return clone;
 	}

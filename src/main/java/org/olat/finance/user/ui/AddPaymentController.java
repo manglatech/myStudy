@@ -43,7 +43,7 @@ public class AddPaymentController extends BasicController {
 		if (source == addPaymentFormController) {
 			if (event == Event.DONE_EVENT) {
 				Integer payment = addPaymentFormController.getPaymentAmount().getIntValue();
-				service.addPayment(view.getTemplateId(), view.getIdentityId(), payment);
+				service.addPayment(view.getFeeCategory().getKey(), view.getIdentity().getKey(), payment);
 				fireEvent(ureq, Event.DONE_EVENT);
 			}
 			else if (event == Event.CANCELLED_EVENT) {

@@ -1,18 +1,18 @@
 package org.olat.finance.user.ui;
 
-import org.olat.finance.user.util.PaidStatus;
+import org.olat.finance.user.util.AccountStatus;
 
 
-public class UserAccountSearchParams {
+public class CreateUserAccountSearchParams {
 	
-	public UserAccountSearchParams() {
+	public CreateUserAccountSearchParams() {
 	}
 	
 	private String groupName;
 	private String userName;
-	private String templateName;
+	private String courseName;
 	private String instituteId;
-	private PaidStatus paidStatus;
+	private AccountStatus accountStatus;
 	
 	public String getGroupName() {
 		return groupName;
@@ -26,11 +26,11 @@ public class UserAccountSearchParams {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public String getTemplateName() {
-		return templateName;
+	public String getCourseName() {
+		return courseName;
 	}
-	public void setTemplateName(String templateName) {
-		this.templateName = templateName;
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
 	public String getInstituteId() {
 		return instituteId;
@@ -38,11 +38,11 @@ public class UserAccountSearchParams {
 	public void setInstituteId(String instituteId) {
 		this.instituteId = instituteId;
 	}
-	public PaidStatus getPaidStatus() {
-		return paidStatus;
+	public AccountStatus getAccountStatus() {
+		return accountStatus;
 	}
-	public void setPaidStatus(PaidStatus paidStatus) {
-		this.paidStatus = paidStatus;
+	public void setAccountStatus(AccountStatus accountStatus) {
+		this.accountStatus = accountStatus;
 	}
 	
 }

@@ -79,6 +79,8 @@ public class UserAccountPaymentsListController extends BasicController
 				"table.payment.key", 0, null, locale));
 		tableC.addColumnDescriptor(new DefaultColumnDescriptor(
 				"table.payment.amount", 1, null, locale));
+		tableC.addColumnDescriptor(new DefaultColumnDescriptor(
+				"table.payment.date", 2, null, locale));
 	}
 
 	protected TableGuiConfiguration initTableConfiguration() {
@@ -94,7 +96,7 @@ public class UserAccountPaymentsListController extends BasicController
 	}
 
 	protected void initButtons(UserRequest ureq) {
-		tableC.addMultiSelectAction("table.delete.fee", TABLE_ACTION_DELETE);
+		tableC.addMultiSelectAction("table.delete.payment", TABLE_ACTION_DELETE);
 		addPayment = LinkFactory.createButton("add.payments", mainVC, this);
 		addPayment.setElementCssClass("o_sel_group_create");
 	}
@@ -104,10 +106,10 @@ public class UserAccountPaymentsListController extends BasicController
 		tableC.modelChanged();
 	}
 
-	private void deleteFees(UserRequest ureq,
+	private void deletePayment(UserRequest ureq,
 			List<UserPaymentInfo> selectedItems) {
 		if (selectedItems.isEmpty()) {
-			showWarning("msg.alleastone.editable.group");
+			showWarning("msg.no.payment.selected");
 			return;
 		}
 		List<Long> ids = new ArrayList<Long>();
@@ -145,7 +147,7 @@ public class UserAccountPaymentsListController extends BasicController
 						.getObjects(te.getSelection());
 				if (TABLE_ACTION_DELETE.equals(te.getAction())) {
 					String text = getTranslator().translate(
-							"resource.fee.remove",
+							"payment.remove.confim",
 							new String[] { "FeeName", "FeeDisplayName" });
 					confirmRemoveResource = activateYesNoDialog(ureq, null,
 							text, this.confirmRemoveResource);
@@ -160,7 +162,7 @@ public class UserAccountPaymentsListController extends BasicController
 			if (DialogBoxUIFactory.isYesEvent(event)) { // yes case
 				List<UserPaymentInfo> selectedItems = (List<UserPaymentInfo>) confirmRemoveResource
 						.getUserObject();
-				deleteFees(ureq, selectedItems);
+				deletePayment(ureq, selectedItems);
 				reloadModel();
 			}
 		}

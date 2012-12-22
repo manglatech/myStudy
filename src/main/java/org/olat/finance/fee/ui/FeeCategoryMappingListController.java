@@ -85,7 +85,7 @@ public class FeeCategoryMappingListController extends BasicController implements
 				getTranslator());
 		listenTo(tableC);
 		tableC.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.fee.maping.name", 0, null, locale));
+				"table.fee.mapping.name", 0, null, locale));
 		tableC.addColumnDescriptor(new DefaultColumnDescriptor(
 				"table.fee.mapping.desc", 1, null, locale));
 		tableC.addColumnDescriptor(new DefaultColumnDescriptor(
