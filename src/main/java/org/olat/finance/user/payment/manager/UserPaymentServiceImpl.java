@@ -12,6 +12,8 @@ import org.olat.finance.user.util.PaidStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.paypal.svcs.types.ap.PaymentInfo;
+
 @Service("userPaymentService")
 public class UserPaymentServiceImpl implements UserPaymentService {
 
@@ -53,14 +55,15 @@ public class UserPaymentServiceImpl implements UserPaymentService {
 			feeIdentityMappingDao.merge(mapping);
 		}
 	}
-
 	@Override
 	public List<UserPaymentInfo> findUserPayments(Long identityId) {
 		return paymentDao.findUserPayments(identityId);
 	}
-
 	@Override
 	public void deletePayments(List<Long> paymentsIds) {
-		// TODO Auto-generated method stub
+		List<UserPaymentInfo> entities = paymentDao.load(paymentsIds);
+		for(UserPaymentInfo info : entities){
+			paymentDao.remove(info);
+		}
 	}
 }

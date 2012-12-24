@@ -146,16 +146,24 @@ public class CreateUserAccountController extends BasicController implements
 			}
 		}
 		if (someAlreadyInGroup) {
-			String names = "";
-			for(Identity ident: alreadyInGroup) {
-				names +=" "+ident.getName();
-				toAdd.remove(ident);
-			}
-			getWindowControl().setInfo(translate("msg.subjectsalreadyingroup", names));
+			String msg = getNames(alreadyInGroup);
+			toAdd.removeAll(alreadyInGroup);
+			getWindowControl().setInfo(translate("msg.already.assigned", msg));
 		}
 		if (toAdd.isEmpty()) {
 			return;
-		}		
+		}else{
+			feeService.addIdentitiesToFeeCategory(toAdd,category);
+			String msg = getNames(toAdd);
+			getWindowControl().setInfo(translate("msg.added.successfully", msg));
+		}
+	}
+	private String getNames(List<Identity> entities){
+		StringBuilder names = new StringBuilder();
+		for(Identity ident: entities) {
+			names.append(" ").append(ident.getName());
+		}
+		return names.toString();
 	}
 
 	private void doAssignFeeCategory(UserRequest ureq, List<Identity> selectedItems) {
