@@ -1,7 +1,9 @@
 package org.olat.finance.fee.model;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,12 +11,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.olat.basesecurity.IdentityImpl;
 import org.olat.core.commons.persistence.OLATPersistenceObject;
 import org.olat.core.id.Identity;
+import org.olat.finance.user.payment.model.UserPaymentInfo;
+import org.olat.finance.user.payment.model.UserPaymentInfoImpl;
 
 @Entity
 @Table(name = "o_fee_identity_mapping")
@@ -39,7 +44,10 @@ public class FeeIdentityMappingImpl extends OLATPersistenceObject implements Fee
 	@ManyToOne(fetch=FetchType.LAZY, targetEntity = FeeCategoryImpl.class)
     @JoinColumn(name="fk_fee_category_id")
 	private FeeCategory feeCategory;
-
+	
+	@OneToMany(mappedBy="feeIdentityMapping", targetEntity = UserPaymentInfoImpl.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	private Set<UserPaymentInfo> userPayments;
+	
 	@Column(name = "lastmodified")
 	private Date lastModified;
 	
@@ -81,6 +89,14 @@ public class FeeIdentityMappingImpl extends OLATPersistenceObject implements Fee
 
 	public void setIdentity(Identity identity) {
 		this.identity = identity;
+	}
+
+	public Set<UserPaymentInfo> getUserPayments() {
+		return userPayments;
+	}
+
+	public void setUserPayments(Set<UserPaymentInfo> userPayments) {
+		this.userPayments = userPayments;
 	}
 	
 

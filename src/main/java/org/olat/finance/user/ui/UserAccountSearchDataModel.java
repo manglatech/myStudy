@@ -3,6 +3,7 @@ package org.olat.finance.user.ui;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.httpclient.util.DateUtil;
 import org.olat.core.gui.components.table.DefaultTableDataModel;
 import org.olat.finance.user.model.UserAccountView;
 import org.olat.finance.user.util.PaidStatus;
@@ -39,28 +40,23 @@ public class UserAccountSearchDataModel extends
 			case 1:
 				return userAccount.getIdentity().getKey();
 			case 2:
-				return userAccount.getFeeCategory().getName();
-			case 3:
 				return userAccount.getTotalAmount();
-			case 4:
+			case 3:
 				return userAccount.getPaidAmount();
-			case 5:
+			case 4:
 				return userAccount.getRemainingAmount();
+			case 5:
+				return userAccount.getPaidStatus();
 			case 6:
-				if(userAccount.getPaidStatusId() == null){
-					return PaidStatus.NOT_DEFINE.getValue();
-				}else{
-					return PaidStatus.find(userAccount.getPaidStatusId()).getValue();
-				}
-			case 7:
-				if (userAccount.getTotalAmount() > 0) {
+				if(PaidStatus.MARK_AS_PAID.getId() != userAccount.getPaidStatusId() && userAccount.getTotalAmount() > 0){
 					return "Pay Now!";
 				}
 				return null;
+			case 7:
+				return userAccount.getFeeCategory().getName();
 			case 8:
-				if(userAccount.getFeeCategory() == null){
-					return "Assign";
-				}
+				if(userAccount.getDueDate() != null)
+					return DateUtil.formatDate(userAccount.getDueDate());
 				return null;
 			default: {
 				return null;

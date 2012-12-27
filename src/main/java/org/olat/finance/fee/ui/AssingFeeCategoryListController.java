@@ -6,25 +6,15 @@ import java.util.List;
 import org.olat.core.gui.UserRequest;
 import org.olat.core.gui.components.table.TableGuiConfiguration;
 import org.olat.core.gui.control.WindowControl;
-import org.olat.core.id.Identity;
-import org.olat.finance.fee.ui.FeeCategoryListController;
-import org.olat.finance.user.model.UserAccountView;
 
-public class AssingFeeCategoryListController extends FeeCategoryListController {
+public class AssingFeeCategoryListController<E> extends FeeCategoryListController {
 
-	//private final UserAccountView view;
-	private List<Identity> identites = new ArrayList<Identity>();
-	
-	/*public AssingFeeCategoryListController(UserRequest ureq,
-			WindowControl windowControl, UserAccountView view) {
-		super(ureq,windowControl);
-		this.view = view;
-	}*/
+	private List<E> entities = new ArrayList<E>();
 	
 	public AssingFeeCategoryListController(UserRequest ureq,
-			WindowControl windowControl, List<Identity> selectedItems) {
+			WindowControl windowControl, List<E> selectedItems) {
 		super(ureq,windowControl);
-		this.identites = selectedItems;
+		this.entities = selectedItems;
 	}
 
 	@Override
@@ -37,13 +27,9 @@ public class AssingFeeCategoryListController extends FeeCategoryListController {
 		tableConfig.setMultiSelect(false);
 		return tableConfig;
 	}
-
-	public List<Identity> getIdentites() {
-		return identites;
+	public List<E> getEntities() {
+		return entities;
 	}
-	
-	/*public UserAccountView getView() {
-		return view;
-	}*/
+
 	
 }

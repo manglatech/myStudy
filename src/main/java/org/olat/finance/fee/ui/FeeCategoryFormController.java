@@ -1,7 +1,9 @@
 package org.olat.finance.fee.ui;
 
 import org.olat.core.gui.UserRequest;
+import org.olat.core.gui.components.date.DateElement;
 import org.olat.core.gui.components.form.flexible.FormItemContainer;
+import org.olat.core.gui.components.form.flexible.elements.DateChooser;
 import org.olat.core.gui.components.form.flexible.elements.TextElement;
 import org.olat.core.gui.components.form.flexible.impl.Form;
 import org.olat.core.gui.components.form.flexible.impl.FormBasicController;
@@ -33,10 +35,12 @@ class FeeCategoryFormController extends FormBasicController {
 	
 	private TextElement feeName;
 	private TextElement feeDesc;
+	private DateChooser dueDate;
 	
 	private static final String FEENAME = "feename";
 	private static final String FEEDESC = "feedesc";
-
+	private static final String DUEDATE = "duedate";
+	
 	private static final String FEE_CREATE_SUCCESS = "fee successfully created: ";
 	private FeeCategory feeCategory;
 	private boolean embbeded = false;
@@ -80,6 +84,11 @@ class FeeCategoryFormController extends FormBasicController {
 		feeDesc = uifactory.addTextElement(FEEDESC, "Description", 128, "", formLayout);
 		feeDesc.setMandatory(true);
 		feeDesc.setDisplaySize(30);
+		
+		dueDate = uifactory.addDateChooser(DUEDATE, "Due Date", "", formLayout);
+		dueDate.setDateChooserTimeEnabled(false);
+		dueDate.setDateChooserDateFormat("%d.%m.%Y %H:%M");
+		dueDate.setCustomDateFormat("dd.MM.yyyy HH:mm");
 		
 		if(!isEmbbeded())
 			uifactory.addFormSubmitButton("save", "submit.save", formLayout);
@@ -144,6 +153,12 @@ class FeeCategoryFormController extends FormBasicController {
 	public void setEmbbeded(boolean embbeded) {
 		this.embbeded = embbeded;
 	}
-	
-	
+
+	public DateChooser getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(DateChooser dueDate) {
+		this.dueDate = dueDate;
+	}
 }

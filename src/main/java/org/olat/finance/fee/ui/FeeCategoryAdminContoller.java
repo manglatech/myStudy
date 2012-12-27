@@ -99,6 +99,10 @@ public class FeeCategoryAdminContoller extends BasicController implements
 			fireEvent(ureq, Event.BACK_EVENT);
 		}
 	}
+	@Override
+	protected void event(UserRequest ureq, Controller source, Event event) {
+		fireEvent(ureq, event);
+	}
 
 	@Override
 	protected void doDispose() {

@@ -49,23 +49,31 @@ public class UserAccountDaoImpl implements UserAccountDao{
 			query.append(" and ");
 			searchLikeAttribute(query, "uav", "identity.user_name", "userName");
 		}
+		if(params.getDueDate() != null){
+			query.append(" and ");
+			query.append(" uav.dueDate<:dueDate ");
+		}
+		
 		if(params.getPaidStatus() != null){
 			switch (params.getPaidStatus()) {
 				case NOT_PAID:
 					query.append(" and ");
-					query.append(" paidStatusId = "+PaidStatus.NOT_PAID.getId());
+					query.append(" (user_paid_amount is null or user_paid_amount = 0) ");
+					query.append("and paid_status = 0");
 					break;
 				case PARTIAL_PAID:
 					query.append(" and ");
-					query.append(" paidStatusId = "+PaidStatus.PARTIAL_PAID.getId());
+					query.append(" (total_amount > user_paid_amount) ");
+					query.append(" and paid_status = 0 ");
 					break;
 				case PAID:
 					query.append(" and ");
-					query.append(" paidStatusId = "+PaidStatus.PAID.getId());
+					query.append(" (total_amount is not null  and user_paid_amount  = total_amount) ");
+					query.append(" and paid_status = 0 ");
 					break;
 				case MARK_AS_PAID:
 					query.append(" and ");
-					query.append(" paidStatusId = "+PaidStatus.MARK_AS_PAID.getId());
+					query.append(" paid_status = 5 ");
 					break;
 				default:
 					break;
@@ -81,6 +89,9 @@ public class UserAccountDaoImpl implements UserAccountDao{
 		}
 		if(params.getUserName() != null){
 			dbq.setParameter("userName", "%"+params.getUserName()+"%");
+		}
+		if(params.getDueDate() != null){
+			dbq.setParameter("dueDate", params.getDueDate());
 		}
 		
 		List<UserAccountView> list = dbq.getResultList();

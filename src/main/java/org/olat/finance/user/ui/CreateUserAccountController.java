@@ -46,7 +46,7 @@ public class CreateUserAccountController extends BasicController implements
 	protected CreateUserAccountSearchParams lastSearchParams;
 	
 	protected CloseableModalController cmc;
-	private AssingFeeCategoryListController assignController;
+	private AssingFeeCategoryListController<Identity> assignController;
 	protected UserAccountDetailController userAccountDetailContoller;
 	
 	//TODO: Remove this:
@@ -134,7 +134,7 @@ public class CreateUserAccountController extends BasicController implements
 	private void doAssignFeeCategory(UserRequest ureq,
 			SingleFeeCategoryChosenEvent feeCategory) {
 		FeeCategory category = feeCategory.getChosenFeeCategory();
-		List<Identity> toAdd = assignController.getIdentites();
+		List<Identity> toAdd = assignController.getEntities();
 		//check if already in group
 		boolean someAlreadyInGroup = false;
 		List<Identity> alreadyInGroup = new ArrayList<Identity>();
@@ -168,7 +168,7 @@ public class CreateUserAccountController extends BasicController implements
 
 	private void doAssignFeeCategory(UserRequest ureq, List<Identity> selectedItems) {
 		removeAsListenerAndDispose(assignController);
-		assignController = new AssingFeeCategoryListController(ureq, getWindowControl(), selectedItems);
+		assignController = new AssingFeeCategoryListController<Identity>(ureq, getWindowControl(), selectedItems);
 		listenTo(assignController);
 
 		cmc = new CloseableModalController(getWindowControl(),

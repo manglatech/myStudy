@@ -7,7 +7,8 @@ public enum PaidStatus {
 	NOT_PAID(2,"Not Paid"),
 	PARTIAL_PAID(3,"Partial Paid"),
 	OVER_PAID(4,"Over Paid"),
-	MARK_AS_PAID(5,"Mark As Paid");
+	MARK_AS_PAID(5,"Closed"),
+	NO_FEE_FOUND(6,"No Fees");
 	
 	private Integer id; 
 	private String value;
@@ -47,6 +48,8 @@ public enum PaidStatus {
 			return OVER_PAID;
 		else if(MARK_AS_PAID.getId() == paidStatus)
 			return MARK_AS_PAID;
+		else if(NO_FEE_FOUND.getId() == paidStatus)
+			return NO_FEE_FOUND;
 		
 		return null;
 	}

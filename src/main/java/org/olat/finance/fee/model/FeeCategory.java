@@ -1,5 +1,6 @@
 package org.olat.finance.fee.model;
 
+import java.util.Date;
 import java.util.Set;
 
 import org.olat.core.id.CreateInfo;
@@ -19,5 +20,8 @@ public interface FeeCategory extends Persistable, ModifiedInfo, CreateInfo{
 	
 	public Set<FeeMapping> getFeeMapping();
 	public void setFeeMapping(Set<FeeMapping> feeMapping);
+	
+	public Date getDueDate();
+	public void setDueDate(Date dueDate);
 	
 }

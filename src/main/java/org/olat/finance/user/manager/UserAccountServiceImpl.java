@@ -34,18 +34,9 @@ public class UserAccountServiceImpl implements UserAccountService{
 	}
 
 	@Override
-	public void markAccountAsPaidInFull(Long identityId, Long categoryId) {
-		FeeIdentityMapping mapping = feeIdentityMappingDao.searchFeeMapping(identityId, categoryId);
-		if(mapping != null){
-			mapping.setPaid(PaidStatus.MARK_AS_PAID.getId());
-			feeIdentityMappingDao.merge(mapping);
-		}
-	}
-
-	@Override
-	public void markAccountAsPaidInFull(List<UserAccountView> selectedItems) {
+	public void markAccountAsClosed(List<UserAccountView> selectedItems) {
 		for(UserAccountView view : selectedItems){
-			markAccountAsPaidInFull(view.getIdentity().getKey(), view.getFeeCategory().getKey());
+			markAccountByStatus(view.getIdentity().getKey(), view.getFeeCategory().getKey(), PaidStatus.MARK_AS_PAID);
 		}
 	}
 	@Override
@@ -58,5 +49,20 @@ public class UserAccountServiceImpl implements UserAccountService{
 			CreateUserAccountSearchParams params) {
 		List<Identity> identities = userAccountDao.searchUserAccountSummary(params);
 		return identities;
+	}
+
+	@Override
+	public void markAccountAsOpen(List<UserAccountView> selectedItems) {
+		for(UserAccountView view : selectedItems){
+			markAccountByStatus(view.getIdentity().getKey(), view.getFeeCategory().getKey(),PaidStatus.NOT_DEFINE);
+		}
+	}
+
+	public void markAccountByStatus(Long identityId, Long categoryId, PaidStatus notDefine) {
+		FeeIdentityMapping mapping = feeIdentityMappingDao.searchFeeMapping(identityId, categoryId);
+		if(mapping != null){
+			mapping.setPaid(notDefine.getId());
+			feeIdentityMappingDao.merge(mapping);
+		}
 	}
 }

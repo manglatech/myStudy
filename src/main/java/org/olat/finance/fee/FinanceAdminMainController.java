@@ -221,7 +221,12 @@ public class FinanceAdminMainController extends MainLayoutBasicController {
 			addToHistory(ureq, bwControl);
 			listenTo(contentCtr);
 			return contentCtr.getInitialComponent();
-		} else {
+		} else if(uobject.equals(USER_ACCOUNT_PREDEFINE_SEARCH_LIST_UOBJECT)){
+			contentCtr = new SelectUserAccountController(ureq, bwControl);
+			addToHistory(ureq, bwControl);
+			listenTo(contentCtr);
+			return contentCtr.getInitialComponent();
+		}else {
 			throw new AssertException(
 					"did not expect to land here in UserAdminMainController this is because uboject is "
 							+ uobject.toString());

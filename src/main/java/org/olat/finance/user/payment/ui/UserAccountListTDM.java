@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.olat.core.gui.components.table.DefaultTableDataModel;
+import org.olat.finance.fee.model.FeeCategory;
 import org.olat.finance.user.payment.model.UserPaymentInfo;
 
 public class UserAccountListTDM extends DefaultTableDataModel<UserPaymentInfo> {
@@ -24,7 +25,8 @@ public class UserAccountListTDM extends DefaultTableDataModel<UserPaymentInfo> {
 		UserPaymentInfo f = (UserPaymentInfo) getObject(row);
 		switch (col) {
 		case 0:
-			return f.getKey();
+			FeeCategory category = f.getFeeIdentityMapping().getFeeCategory();
+			return category.getName();
 		case 1:
 			return f.getPaidAmount();
 		case 2:

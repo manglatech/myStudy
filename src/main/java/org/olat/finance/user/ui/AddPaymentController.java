@@ -9,9 +9,10 @@ import org.olat.core.gui.control.Event;
 import org.olat.core.gui.control.WindowControl;
 import org.olat.core.gui.control.controller.BasicController;
 import org.olat.core.gui.translator.Translator;
+import org.olat.core.id.Identity;
 import org.olat.core.util.Util;
+import org.olat.finance.fee.model.FeeCategory;
 import org.olat.finance.fee.ui.FeeCreateController;
-import org.olat.finance.user.model.UserAccountView;
 import org.olat.finance.user.payment.manager.UserPaymentService;
 import org.olat.user.UserManager;
 
@@ -19,12 +20,16 @@ public class AddPaymentController extends BasicController {
 
 	private AddPaymentFormController addPaymentFormController;
 	private UserPaymentService service;
-	private UserAccountView view;
+	protected FeeCategory feeCategory;
+	protected Identity identity;
 	
 	public AddPaymentController(UserRequest ureq, WindowControl wControl,
-			UserAccountView view) {
+			FeeCategory feeCategory, Identity identity) {
+		
 		super(ureq, wControl, Util.createPackageTranslator(FeeCreateController.class, ureq.getLocale()));
-		this.view = view;
+		this.feeCategory = feeCategory;
+		this.identity = identity;
+		
 		Translator pT = UserManager.getInstance().getPropertyHandlerTranslator(getTranslator());		
 		addPaymentFormController = new AddPaymentFormController(ureq, wControl, pT);		
 		service = CoreSpringFactory.getImpl(UserPaymentService.class);
@@ -43,7 +48,7 @@ public class AddPaymentController extends BasicController {
 		if (source == addPaymentFormController) {
 			if (event == Event.DONE_EVENT) {
 				Integer payment = addPaymentFormController.getPaymentAmount().getIntValue();
-				service.addPayment(view.getFeeCategory().getKey(), view.getIdentity().getKey(), payment);
+				service.addPayment(feeCategory.getKey(), identity.getKey(), payment);
 				fireEvent(ureq, Event.DONE_EVENT);
 			}
 			else if (event == Event.CANCELLED_EVENT) {
