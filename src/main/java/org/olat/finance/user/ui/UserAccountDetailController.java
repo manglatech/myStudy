@@ -3,6 +3,7 @@ package org.olat.finance.user.ui;
 import java.util.List;
 import java.util.Locale;
 
+import org.olat.admin.user.UserShortDescription;
 import org.olat.core.CoreSpringFactory;
 import org.olat.core.gui.UserRequest;
 import org.olat.core.gui.components.Component;
@@ -32,7 +33,7 @@ Activateable2 {
 
 	Identity identity;
 	protected UserAccountService userAccountService = null;
-	private Controller uaPaymentList, uaDeails;
+	private Controller uaPaymentList, uaDeails, userShortDescrCtr;
 	private TabbedPane uaTabP;
 
 	
@@ -44,11 +45,12 @@ Activateable2 {
 		this.locale = ureq.getLocale();
 		this.userAccountService  = CoreSpringFactory.getImpl(UserAccountService.class);
 		
+		
 		myContent = createVelocityContainer("userAccountDetails");
 		backLink = LinkFactory.createLinkBack(myContent, this);
 
 		initTabbedPane(ureq);
-		initContent();
+		initContent(ureq);
 
 		putInitialPanel(myContent);
 
@@ -67,8 +69,10 @@ Activateable2 {
 
 	}
 	
-	private void initContent() {
-		myContent.contextPut("name", this.identity.getName());
+	private void initContent(UserRequest ureq) {
+		//myContent.contextPut("name", this.identity.getName());
+		userShortDescrCtr = new UserShortDescription(ureq, getWindowControl(), identity);
+		myContent.put("userShortDescription", userShortDescrCtr.getInitialComponent());
 	}
 	
 	@Override
