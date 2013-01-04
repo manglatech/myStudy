@@ -52,7 +52,7 @@ public class CreateUserAccountSearchDataModel extends
 
 	@Override
 	public Object createCopyWithEmptyList() {
-		UserAccountSearchDataModel copy = new UserAccountSearchDataModel();
+		CreateUserAccountSearchDataModel copy = new CreateUserAccountSearchDataModel();
 		return copy;
 	}
 

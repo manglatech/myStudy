@@ -27,7 +27,7 @@ public class CreateUserAccountSearchController extends FormBasicController imple
 	private SingleSelection assignedStatusEl;
 	//private MultipleSelectionElement headlessEl;
 	
-	private String[] accountStatusKeys = {"unAssigned","assigned"};
+	private String[] accountStatusKeys = {"assigned", "unAssigned"};
 
 	public CreateUserAccountSearchController(UserRequest ureq, WindowControl wControl) {
 		super(ureq, wControl);

@@ -49,7 +49,7 @@ public class FeeMappingUpdateFormController extends FormBasicController {
 			if(feeMapping.getPrice() != null){
 				value = feeMapping.getPrice().toString();
 			}
-			price[index] = uifactory.addTextElement(PRICE+"_"+index, feeMapping.getFee().getName() , 10, value, formLayout);
+			price[index] = uifactory.addTextElement(PRICE+"_"+index, feeMapping.getFee().getName(),  10, value, formLayout);
 			price[index].setMandatory(true);
 			index++;
 			

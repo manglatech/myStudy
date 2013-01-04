@@ -52,7 +52,7 @@ public class UserAccountSearchController extends FormBasicController implements 
 		dueDate = uifactory.addDateChooser("usc_due_date", "usc.due.date", "", formLayout);
 		dueDate.setDateChooserTimeEnabled(false);
 		dueDate.setDateChooserDateFormat("%d.%m.%Y %H:%M");
-		dueDate.setCustomDateFormat("dd.MM.yyyy HH:mm");
+		dueDate.setCustomDateFormat("EEE, MMM d, yyyy");
 		
 		//roles
 		String[] paidStatusValues = new String[paidStatusKeys.length];

@@ -33,5 +33,6 @@ and paid_status = 0
 
 alter table o_fee_category add column due_date datetime;
 
+select * from o_bs_identity
 
 

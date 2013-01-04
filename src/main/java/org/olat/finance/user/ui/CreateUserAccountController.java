@@ -91,7 +91,7 @@ public class CreateUserAccountController extends BasicController implements
 	
 	protected void initButtons(UserRequest ureq) {
 		createUserAccountListCtr.setMultiSelect(true);
-		createUserAccountListCtr.addMultiSelectAction("Assing Fee", TABLE_ACTION_ASSIGN_TEMPLATE);
+		createUserAccountListCtr.addMultiSelectAction("assign.fee", TABLE_ACTION_ASSIGN_TEMPLATE);
 	}
 	
 	protected void initColumns() {

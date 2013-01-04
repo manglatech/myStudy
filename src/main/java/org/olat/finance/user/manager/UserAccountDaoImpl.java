@@ -9,10 +9,12 @@ import javax.persistence.TypedQuery;
 import org.olat.basesecurity.IdentityImpl;
 import org.olat.core.commons.persistence.DB;
 import org.olat.core.id.Identity;
+import org.olat.finance.fee.model.FeeIdentityMappingImpl;
 import org.olat.finance.user.model.UserAccountView;
 import org.olat.finance.user.model.UserAccountViewImpl;
 import org.olat.finance.user.ui.CreateUserAccountSearchParams;
 import org.olat.finance.user.ui.UserAccountSearchParams;
+import org.olat.finance.user.util.AccountStatus;
 import org.olat.finance.user.util.PaidStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +49,7 @@ public class UserAccountDaoImpl implements UserAccountDao{
 		}
 		if(params.getUserName() != null){
 			query.append(" and ");
-			searchLikeAttribute(query, "uav", "identity.user_name", "userName");
+			searchLikeAttribute(query, "uav", "identity.name", "userName");
 		}
 		if(params.getDueDate() != null){
 			query.append(" and ");
@@ -138,7 +140,7 @@ public class UserAccountDaoImpl implements UserAccountDao{
 		query.append(" select distinct obi.* FROM o_bs_identity obi ");
 		query.append(" left join o_bs_membership obm on obi.id = obm.identity_id ");
 		query.append(" left join o_gp_business og on obm.secgroup_id = og.fk_partipiciantgroup ");
-		query.append(" where obi.fk_institute_id=:instituteId ");
+		query.append(" where obi.fk_institute_id=:instituteId and obi.status < "+Identity.STATUS_VISIBLE_LIMIT);
 		
 		if(params.getUserName() != null){
 			query.append(" and ");
@@ -148,6 +150,18 @@ public class UserAccountDaoImpl implements UserAccountDao{
 			query.append(" and ");
 			searchLikeAttribute(query, "og", "groupname", "groupname");
 		}
+		if(params.getAccountStatus() != null){
+			if(AccountStatus.UNASSIGNED == params.getAccountStatus()){
+				query.append(" and ");
+				query.append(" obi.id not in ( select distinct fim.fk_identity_id from ");
+				query.append(" o_fee_identity_mapping fim ) ");
+			}else if(AccountStatus.ASSIGNED == params.getAccountStatus()){
+				query.append(" and ");
+				query.append(" obi.id in ( select distinct fim.fk_identity_id from ");
+				query.append(" o_fee_identity_mapping fim ) ");
+			}
+		}
+		
 		
 		Query q = dbInstance.getCurrentEntityManager().createNativeQuery(query.toString(), IdentityImpl.class);
 		q.setParameter("instituteId", params.getInstituteId());

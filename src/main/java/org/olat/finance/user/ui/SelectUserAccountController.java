@@ -7,6 +7,7 @@ import java.util.Locale;
 import org.olat.core.CoreSpringFactory;
 import org.olat.core.gui.UserRequest;
 import org.olat.core.gui.components.Component;
+import org.olat.core.gui.components.table.ColumnDescriptor;
 import org.olat.core.gui.components.table.DefaultColumnDescriptor;
 import org.olat.core.gui.components.table.Table;
 import org.olat.core.gui.components.table.TableController;
@@ -89,9 +90,10 @@ public class SelectUserAccountController extends AbstractUserAccountController {
 	
 	protected void initButtons(UserRequest ureq) {
 		userAccountListCtr.setMultiSelect(true);
-		userAccountListCtr.addMultiSelectAction("Close Account", TABLE_ACTION_PAY_IN_FULL);
-		userAccountListCtr.addMultiSelectAction("Open Account", TABLE_ACTION_OPEN_ACCOUNT);
-		userAccountListCtr.addMultiSelectAction("Email Invoice", TABLE_ACTION_EMAIL_INVOICE);
+		userAccountListCtr.addMultiSelectAction("close.account", TABLE_ACTION_PAY_IN_FULL);
+		userAccountListCtr.addMultiSelectAction("open.account", TABLE_ACTION_OPEN_ACCOUNT);
+		//TODO:In Next Version. 
+		//userAccountListCtr.addMultiSelectAction("Email Invoice", TABLE_ACTION_EMAIL_INVOICE);
 	}
 	
 	protected void initColumns() {
@@ -100,19 +102,27 @@ public class SelectUserAccountController extends AbstractUserAccountController {
 				"table.user.account.user.name", 0, TABLE_ACTION_PAYMENT_DETAILS, locale));
 		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
 				"table.user.account.user.email", 1, null, locale));
-		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.user.account.user.total.amount", 2, null, locale));
-		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.user.account.user.amount.paid", 3, null, locale));
-		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.user.account.user.amount.remaining", 4, null, locale));
+		
+		DefaultColumnDescriptor amount = new DefaultColumnDescriptor("table.user.account.user.total.amount", 2, null, locale);
+		amount.setAlignment(DefaultColumnDescriptor.ALIGNMENT_CENTER);
+		userAccountListCtr.addColumnDescriptor(amount);
+		
+		DefaultColumnDescriptor paid = new DefaultColumnDescriptor("table.user.account.user.amount.paid", 3, null, locale);
+		paid.setAlignment(DefaultColumnDescriptor.ALIGNMENT_CENTER);
+		userAccountListCtr.addColumnDescriptor(paid);
+		
+		DefaultColumnDescriptor remaining = new DefaultColumnDescriptor(
+				"table.user.account.user.amount.remaining", 4, null, locale);
+		remaining.setAlignment(DefaultColumnDescriptor.ALIGNMENT_CENTER);
+		userAccountListCtr.addColumnDescriptor(false,remaining);
+		
 		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
 				"table.user.account.user.paid.status", 5, null, locale));
 		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
 				"table.user.account.user.pay", 6, TABLE_ACTION_MAKE_PAYMENT, locale));
 		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
 				"table.user.account.user.template", 7, TABLE_ACTION_TEMPLLATE_DETAILS, locale));
-		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
+		userAccountListCtr.addColumnDescriptor(false,new DefaultColumnDescriptor(
 				"table.user.account.user.template.due.date", 8, null, locale));
 		
 		/*userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(

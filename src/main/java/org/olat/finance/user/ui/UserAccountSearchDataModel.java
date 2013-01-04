@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.httpclient.util.DateUtil;
 import org.olat.core.gui.components.table.DefaultTableDataModel;
+import org.olat.core.id.UserConstants;
 import org.olat.finance.user.model.UserAccountView;
 import org.olat.finance.user.util.PaidStatus;
 
@@ -38,7 +39,7 @@ public class UserAccountSearchDataModel extends
 			case 0:
 				return userAccount.getIdentity().getName();
 			case 1:
-				return userAccount.getIdentity().getKey();
+				return userAccount.getIdentity().getUser().getProperty(UserConstants.EMAIL, null);
 			case 2:
 				return userAccount.getTotalAmount();
 			case 3:
