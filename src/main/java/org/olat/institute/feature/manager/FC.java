@@ -25,8 +25,13 @@ public class FC extends AbstractOLATModule {
 		
 		if(!configEnabled){
 			enabled = false;
-		}if(featureId!= null && !FC.isEnabled(instituteId, featureId)){
-			enabled = false;
+		}
+		
+		boolean byPassInstituteCheck = (instituteId != null && instituteId.equalsIgnoreCase("0"));
+		if(!byPassInstituteCheck){
+			if(featureId!= null && !FC.isEnabled(instituteId, featureId)){
+				enabled = false;
+			}
 		}
 		return enabled;
 	}

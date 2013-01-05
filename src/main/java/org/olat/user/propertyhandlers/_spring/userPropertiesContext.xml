@@ -105,7 +105,7 @@
 							<set>
 								<ref bean="userPropertyFirstName" />
 								<ref bean="userPropertyLastName" />
-								<ref bean="userPropertyInstitutionalUserIdentifier" />
+								<!-- <ref bean="userPropertyInstitutionalUserIdentifier" /> -->
 								<ref bean="userPropertyTelMobile" />
 								
 								<!-- <ref bean="userPropertyInstitutionalName" />
@@ -120,6 +120,7 @@
 									only used by user admin to trigger user password change workflow at
 									login, not visible for users when logged in
 								-->
+								<ref bean="userPropertyInstitutionalUserIdentifier" />
 								<ref bean="userPropertyEmailDisabled" />
 							</set>
 						</property>

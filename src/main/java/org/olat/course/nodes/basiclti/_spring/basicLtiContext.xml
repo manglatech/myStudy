@@ -8,7 +8,7 @@
   <bean id="lti" class="org.olat.course.nodes.basiclti.LTICourseNodeConfiguration" scope="prototype">
 	<property name="enabled" value="${course.node.basiclti.enabled}" />
 	<property name="order"   value="31" />
-	<property name="featureId" value="26" />
+	<property name="featureId" value="${feature.lti.course.id}" />
   </bean>
 
 </beans>

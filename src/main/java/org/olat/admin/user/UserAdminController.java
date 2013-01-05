@@ -226,10 +226,15 @@ public class UserAdminController extends BasicController implements Activateable
 		if (isOlatAdmin) return true;
 
 		BaseSecurity secmgr = BaseSecurityManager.getInstance();
-		// only admins can administrate admin and usermanager users
+		// only admins can administrate admin 
 		boolean isAdmin = secmgr.isIdentityPermittedOnResourceable(identity, Constants.PERMISSION_HASROLE, Constants.ORESOURCE_ADMIN);
+		if (isAdmin) return false;
+		
+		// User Manager can administrate User Manager
+		Boolean canManageUserManager = BaseSecurityModule.USERMANAGER_CAN_MANAGE_USER_MANAGER;
 		boolean isUserManager = secmgr.isIdentityPermittedOnResourceable(identity, Constants.PERMISSION_HASROLE, Constants.ORESOURCE_USERMANAGER);
-		if (isAdmin || isUserManager) return false;
+		if (isUserManager && !canManageUserManager.booleanValue()) return false;
+		
 		// if user is author ony allowed to edit if configured
 		boolean isAuthor = secmgr.isIdentityPermittedOnResourceable(identity, Constants.PERMISSION_HASROLE, Constants.ORESOURCE_AUTHOR);
 		Boolean canManageAuthor = BaseSecurityModule.USERMANAGER_CAN_MANAGE_AUTHORS;

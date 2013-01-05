@@ -143,13 +143,13 @@
 			<list>
 				<list>
 					<value>Calendar</value> 
-					<value>Bookmarks</value>
 					<value>Groups</value>
 					<value>Notifications</value>
 					<value>Notes</value>
-					<value>RepositoryPortletStudent</value>
 				</list>
 				<list>
+					<value>Bookmarks</value>
+					<value>RepositoryPortletStudent</value>
 					<value>Information</value>
 					<value>Zsuz</value>
 					<value>Quickstart</value>

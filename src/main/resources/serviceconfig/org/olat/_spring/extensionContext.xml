@@ -234,6 +234,27 @@
 	<bean class="org.olat.core.extensions.action.GenericActionExtension"
 		init-method="initExtensionPoints">
 		<property name="order" value="7600" />
+		<property name="nodeIdentifierIfParent" value="instituteAdminParent" />
+		<property name="navigationKey" value="instituteadminparent" />
+		<property name="actionController">
+			<bean class="org.olat.core.gui.control.creator.AutoCreator"
+				scope="prototype">
+				<property name="className"
+					value="org.olat.admin.institute.InstituteAdminController" />
+			</bean>
+		</property>
+		<property name="translationPackage" value="org.olat.admin" />
+		<property name="i18nActionKey" value="institute.admin.parent" />
+		<property name="i18nDescriptionKey" value="institute.admin.parent.alt" />
+		<property name="extensionPoints">
+			<list>
+				<value>org.olat.admin.SystemAdminMainController</value>
+			</list>
+		</property>
+	</bean>
+	<bean class="org.olat.core.extensions.action.GenericActionExtension"
+		init-method="initExtensionPoints">
+		<property name="order" value="7601" />
 		<property name="navigationKey" value="instituteadmin" />
 		<property name="actionController">
 			<bean class="org.olat.core.gui.control.creator.AutoCreator"
@@ -250,6 +271,29 @@
 				<value>org.olat.admin.SystemAdminMainController</value>
 			</list>
 		</property>
+		<property name="parentTreeNodeIdentifier" value="instituteAdminParent" />
+	</bean>
+	
+	<bean class="org.olat.core.extensions.action.GenericActionExtension"
+		init-method="initExtensionPoints">
+		<property name="order" value="7601" />
+		<property name="navigationKey" value="instituteadmin" />
+		<property name="actionController">
+			<bean class="org.olat.core.gui.control.creator.AutoCreator"
+				scope="prototype">
+				<property name="className"
+					value="org.olat.admin.institute.InstituteFeaturesController" />
+			</bean>
+		</property>
+		<property name="translationPackage" value="org.olat.admin" />
+		<property name="i18nActionKey" value="institute.features" />
+		<property name="i18nDescriptionKey" value="institute.features.alt" />
+		<property name="extensionPoints">
+			<list>
+				<value>org.olat.admin.SystemAdminMainController</value>
+			</list>
+		</property>
+		<property name="parentTreeNodeIdentifier" value="instituteAdminParent" />
 	</bean>
 
 	<bean class="org.olat.core.extensions.action.GenericActionExtension"

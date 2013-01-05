@@ -81,6 +81,7 @@
 		<class>org.olat.finance.user.model.UserAccountViewImpl</class>
 		<class>org.olat.finance.user.payment.model.UserPaymentInfoImpl</class>
 		<class>org.olat.institute.feature.model.InstituteFeatureImpl</class>
+		<class>org.olat.institute.model.InstituteImpl</class>
 		
 		<properties>
 			<property name="hibernate.generate_statistics" value="true"/>

@@ -11,7 +11,7 @@
   <bean id="portfolioCourseNodeConf" class="org.olat.course.nodes.portfolio.PortfolioCourseNodeConfiguration" scope="prototype">
 	<property name="enabled" value="${course.node.portfolio.enabled}" />
 	<property name="order"   value="131" />
-	<property name="featureId" value="7" />
+	<property name="featureId" value="${feature.portfolio.content.id}" />
   </bean>
 
 </beans>

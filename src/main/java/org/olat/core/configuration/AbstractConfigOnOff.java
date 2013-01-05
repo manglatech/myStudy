@@ -26,9 +26,9 @@
 
 package org.olat.core.configuration;
 
+import org.olat.institute.feature.FeatureModule;
 import org.olat.institute.feature.configuration.InstituteSpecificConfiguration;
 import org.olat.institute.feature.manager.FC;
-import org.olat.institute.feature.util.Features;
 
 
 
@@ -39,7 +39,7 @@ import org.olat.institute.feature.util.Features;
 public abstract class AbstractConfigOnOff implements ConfigOnOff,InstituteSpecificConfiguration {
 	
 	private boolean configEnabled = true;
-	private Integer featureId = Features.NOT_DEFINED.getId();
+	private Integer featureId = FeatureModule.FEATURE_NOT_DEFINE;
 
 	/**
 	 * [used by spring]

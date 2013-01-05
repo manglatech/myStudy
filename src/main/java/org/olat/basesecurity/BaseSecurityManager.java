@@ -85,7 +85,6 @@ public class BaseSecurityManager extends BasicManager implements BaseSecurity {
 	private static BaseSecurityManager INSTANCE;
 	private static String GUEST_USERNAME_PREFIX = "guest_";
 	public static final OLATResourceable IDENTITY_EVENT_CHANNEL = OresHelper.lookupType(Identity.class);
-
 	/**
 	 * [used by spring]
 	 */
@@ -129,7 +128,6 @@ public class BaseSecurityManager extends BasicManager implements BaseSecurity {
 		SecurityGroup adminGroup = findSecurityGroupByName(Constants.GROUP_ADMIN);
 		if (adminGroup == null) 
 			adminGroup = createAndPersistNamedSecurityGroup(Constants.GROUP_ADMIN);
-
 		// we check everthing by policies, so we must give admins the hasRole
 		// permission on the type resource "Admin"
 		createAndPersistPolicyIfNotExists(adminGroup, Constants.PERMISSION_HASROLE, Constants.ORESOURCE_ADMIN);
@@ -1540,6 +1538,7 @@ public class BaseSecurityManager extends BasicManager implements BaseSecurity {
 				sb.append(") ");
 				sb.append(" and sgmsi.identity=ident ");
 			}
+			
 	
 			// append query for policies
 			if (hasPermissionOnResources) {

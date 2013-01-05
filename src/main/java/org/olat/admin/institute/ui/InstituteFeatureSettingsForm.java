@@ -14,21 +14,21 @@ import org.olat.core.gui.control.WindowControl;
 
 public class InstituteFeatureSettingsForm extends FormBasicController {
 
-	private SingleSelection featuresList;
+	private SingleSelection instituteList;
 	private String[] keys;
 	private String[] values;
 	
 	public InstituteFeatureSettingsForm(UserRequest ureq,
-			WindowControl wControl, Map<String,String> features) {
+			WindowControl wControl, Map<String,String> institutes) {
 		super(ureq, wControl);
 		
-		keys = new String[features.keySet().size()];
-		values = new String[features.keySet().size()];
+		keys = new String[institutes.keySet().size()];
+		values = new String[institutes.keySet().size()];
 		
 		int index = 0;
-		for(String key : features.keySet()){
+		for(String key : institutes.keySet()){
 			keys[index] = key;
-			values[index] = features.get(key);
+			values[index] = institutes.get(key);
 			index++;
 		}
 		
@@ -42,8 +42,10 @@ public class InstituteFeatureSettingsForm extends FormBasicController {
 		setFormTitle("institute.feature.form.title");
 		setFormDescription("institute.feature.intro");
 		
-		featuresList = uifactory.addDropdownSingleselect("features.numOfFeatures", formLayout, keys, values, null);
-		featuresList.addActionListener(this, FormEvent.ONCHANGE);
+		instituteList = uifactory.addDropdownSingleselect("features.numOfFeatures", formLayout, keys, values, null);
+		instituteList.addActionListener(this, FormEvent.ONCHANGE);
+		instituteList.select(keys[0], true);
+		
 	}
 
 	@Override
@@ -63,10 +65,10 @@ public class InstituteFeatureSettingsForm extends FormBasicController {
 		System.out.println("Event Component Called");
 		fireEvent(ureq, Event.CHANGED_EVENT);
 	}
-	public SingleSelection getFeaturesList() {
-		return featuresList;
+	public SingleSelection getInstituteList() {
+		return instituteList;
 	}
-	public void setFeaturesList(SingleSelection featuresList) {
-		this.featuresList = featuresList;
+	public void setInstituteList(SingleSelection instituteList) {
+		this.instituteList = instituteList;
 	}
 }

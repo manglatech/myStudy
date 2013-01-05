@@ -108,6 +108,8 @@ public class HomePortalControllerCreator extends AutoCreator  {
 					portalEditButton.setVisible(true);
 				}else{
 					myPortal = ((PortalImpl)CoreSpringFactory.getBean("homeportal")).createInstance(getWindowControl(), ureq);
+					portalEditButton.setEnabled(true);
+					portalEditButton.setVisible(true);
 				}
 			}
 			

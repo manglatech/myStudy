@@ -11,7 +11,7 @@
   <bean id="infoCourseNodeConf" class="org.olat.course.nodes.info.InfoCourseNodeConfiguration" scope="prototype">
 	<property name="enabled" value="${course.node.infomessage.enabled}" />
 	<property name="order"   value="189" />
-	<property name="featureId" value="25" />
+	<property name="featureId" value="${features.notification.id}" />
   </bean>
 
 </beans>

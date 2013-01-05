@@ -622,14 +622,17 @@ public class UserAdminMainController extends MainLayoutBasicController implement
 			gtn3.addChild(gtnChild);		
 		}
 
+		Boolean canUsermanagers = BaseSecurityModule.USERMANAGER_CAN_MANAGE_USER_MANAGER;
 		// admin group and user manager group always restricted to admins
-		if (isOlatAdmin) {
+		if (canUsermanagers || isOlatAdmin) {
 			gtnChild = new GenericTreeNode();		
 			gtnChild.setTitle(translator.translate("menu.usermanagergroup"));
 			gtnChild.setUserObject("usermanagergroup");
 			gtnChild.setAltText(translator.translate("menu.usermanagergroup.alt"));
 			gtn3.addChild(gtnChild);
-
+		}
+		
+		if(isOlatAdmin){
 			gtnChild = new GenericTreeNode();		
 			gtnChild.setTitle(translator.translate("menu.admingroup"));
 			gtnChild.setUserObject("admingroup");

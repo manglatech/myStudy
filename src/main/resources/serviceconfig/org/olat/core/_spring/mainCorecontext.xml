@@ -28,16 +28,18 @@
 		*** header part, e.g. for a logo       ***
 		******************************************
 	-->
-	<!-- <bean id="fullWebApp.HeaderControllerCreator" class="org.olat.core.gui.control.creator.AutoCreator" >
+	<bean id="fullWebApp.HeaderControllerCreator" class="org.olat.core.gui.control.creator.AutoCreator" >
 		<property name="className" value="org.olat.core.commons.fullWebApp.EmptyHeaderController"/>
-	-->
-	
+	</bean>
+		
+	<!--
 	<bean id="fullWebApp.HeaderControllerCreator" class="org.olat.core.commons.fullWebApp.LogoWithLinkHeaderControllerCreator" >
 		<property name="linkURI" value=""/>
 		<property name="imgURI" value="${site.login.logo}"/>
 		<property name="imgAltText" value=""/>
 	</bean>
-	 
+	-->
+	
 	<!--
 		******************************************
 		*** Configure the controller in the    ***
@@ -47,6 +49,7 @@
 	<!-- DMZ -->
 	<bean id="fullWebApp.DMZTopNavControllerCreator" class="org.olat.gui.control.DmzTopNavCreator">
 		<property name="impressum" value="${topnav.impressum}"/>
+		<property name="languageSelector" value="${topnav.language.select}"/>
 	</bean>
 	
 	<!-- Guest -->

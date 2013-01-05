@@ -1,10 +1,9 @@
 package org.olat.institute.feature.manager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.olat.institute.feature.model.InstituteFeature;
-import org.olat.institute.feature.model.InstituteFeatureImpl;
+import org.olat.institute.manager.InstituteDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +12,9 @@ public class InstituteFeatureServiceImpl implements InstituteFeatureService {
 
 	@Autowired
 	private InstituteFeatureDao instituteFeatureDao;
+	
+	@Autowired
+	private InstituteDao instituteDao;
 	
 	@Autowired
 	InstituteFeatureLoader loader;
@@ -26,23 +28,6 @@ public class InstituteFeatureServiceImpl implements InstituteFeatureService {
 			instituteFeatureDao.merge(f);
 		}
 		loader.init();
-	}
-
-	@Override
-	public List<InstituteFeature> loadUniqueInstitutes() {
-		//return instituteFeatureDao.uniqueFeatures();
-		List<InstituteFeature> features = new ArrayList<InstituteFeature>();
-		InstituteFeature f = new InstituteFeatureImpl();
-		f.setInstituteId("2");
-		f.setFeatureName("UVPCE");
-		features.add(f);
-		
-		InstituteFeature f1 = new InstituteFeatureImpl();
-		f1.setInstituteId("1");
-		f1.setFeatureName("NE - UVPCE");
-		features.add(f1);
-		
-		return features;
 	}
 
 	@Override

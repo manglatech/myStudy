@@ -61,6 +61,7 @@ depends-on="database, i18nModule, triggerI18nModuleInit">
 						sysGroupUsermanager.canManageGroupmanagers=${sysGroupUsermanager.canManageGroupmanagers}
 						sysGroupUsermanager.canManageInstitutionalResourceManager=${sysGroupUsermanager.canManageInstitutionalResourceManager}
 						sysGroupUsermanager.canManageAuthors=${sysGroupUsermanager.canManageAuthors}
+						sysGroupUsermanager.canManageUserManagers=${sysGroupUsermanager.canManageUserManagers}
 						sysGroupUsermanager.canManageGuests=${sysGroupUsermanager.canManageGuests}
 						sysGroupUsermanager.canBypassEmailverification=${sysGroupUsermanager.canBypassEmailverification}
 						sysGroupUsermanager.canEditAllProfileFields=${sysGroupUsermanager.canEditAllProfileFields}

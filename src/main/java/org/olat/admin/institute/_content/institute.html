@@ -1,0 +1,7 @@
+$r.render("institutes")
+#if($r.available("create.institute"))
+	<div class="b_clearfix">
+		<p>$r.translate("create.institute.description")</p>
+		$r.render("create.institute")
+	</div>
+#end

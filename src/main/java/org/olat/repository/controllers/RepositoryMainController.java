@@ -73,8 +73,8 @@ import org.olat.fileresource.types.WikiResource;
 import org.olat.group.BusinessGroupService;
 import org.olat.ims.qti.fileresource.SurveyFileResource;
 import org.olat.ims.qti.fileresource.TestFileResource;
+import org.olat.institute.feature.FeatureModule;
 import org.olat.institute.feature.manager.FC;
-import org.olat.institute.feature.util.Features;
 import org.olat.portfolio.EPTemplateMapResource;
 import org.olat.portfolio.PortfolioModule;
 import org.olat.repository.RepositoryEntry;
@@ -226,10 +226,17 @@ public class RepositoryMainController extends MainLayoutBasicController
 					"search.my", rootNode);
 			menuTree.setSelectedNode(activatedNode);
 		} else {
-			activateContent(ureq, "search.catalog", null, null);
-			TreeNode activatedNode = TreeHelper.findNodeByUserObject(
-					"search.catalog", rootNode);
-			menuTree.setSelectedNode(activatedNode);
+			if(isCourseEnabled()){
+				activateContent(ureq, "search.course", null, null);
+				TreeNode activatedNode = TreeHelper.findNodeByUserObject(
+						"search.course", rootNode);
+				menuTree.setSelectedNode(activatedNode);
+			}else{
+				activateContent(ureq, "search.generic", null, null);
+				TreeNode activatedNode = TreeHelper.findNodeByUserObject(
+						"search.generic", rootNode);
+				menuTree.setSelectedNode(activatedNode);
+			}
 		}
 
 		putInitialPanel(columnsLayoutCtr.getInitialComponent());
@@ -243,7 +250,9 @@ public class RepositoryMainController extends MainLayoutBasicController
 			listenTo(mainToolC);
 			// CP, SCORM, Wiki, Podcast, Blog, Test, Questionnaire, Glossary,
 			// other formats
-
+			
+			if(FeatureModule.IMPORT_RESOURCES_ENABLED){
+				
 			mainToolC.addHeader(translate("tools.add.header"));
 			if(isCourseEnabled()){
 				mainToolC.addLink(RepositoryAddController.ACTION_ADD_COURSE,
@@ -299,7 +308,9 @@ public class RepositoryMainController extends MainLayoutBasicController
 						translate("tools.add.webdoc"),
 						RepositoryAddController.ACTION_ADD_DOC,
 						"b_toolbox_doc o_sel_repo_import_doc");
-
+			
+			}
+			
 			mainToolC.addHeader(translate("tools.new.header"));
 			if (isCourseEnabled()) {
 				mainToolC.addLink(ACTION_NEW_CREATECOURSE,
@@ -374,11 +385,14 @@ public class RepositoryMainController extends MainLayoutBasicController
 		rootNode.setCssClass("o_sel_repo_home");
 		gtm.setRootNode(rootNode);
 
-		// TODO:catalog not yet finished :
-		GenericTreeNode node = new GenericTreeNode(translate("search.catalog"),
-				"search.catalog");
-		node.setCssClass("o_sel_repo_catalog");
-		rootNode.addChild(node);
+		GenericTreeNode node = null;
+		if (isCatalogEnabled()) {
+			// TODO:catalog not yet finished :
+			node = new GenericTreeNode(translate("search.catalog"),
+					"search.catalog");
+			node.setCssClass("o_sel_repo_catalog");
+			rootNode.addChild(node);
+		}
 
 		// check if repository portlet is configured in olat_portals.xml
 		boolean repoPortletOn = PortletFactory
@@ -1175,56 +1189,60 @@ public class RepositoryMainController extends MainLayoutBasicController
 
 	private boolean isSCORMEnabled() {
 		return FC.isEnabled(getUserInst(),
-				Features.SCORM_LEARNING_CONTENT.getId());
+				FeatureModule.FEATURE_SCORM_CONTENT_ID);
 	}
 
 	private boolean isCPEnabled() {
 		return FC
-				.isEnabled(getUserInst(), Features.CP_LEARNING_CONTENT.getId());
+				.isEnabled(getUserInst(), FeatureModule.FEATURE_CP_CONTENT_ID);
 	}
 
 	private boolean isCourseEnabled() {
 		return FC.isEnabled(getUserInst(),
-				Features.COURSE_LEARNING_CONTENT.getId());
+				FeatureModule.FEATURE_COURSE_ID);
 	}
 
 	private boolean isWikiEnabled() {
 		return FC.isEnabled(getUserInst(),
-				Features.WIKI_LEARNING_CONTENT.getId());
+				FeatureModule.FEATURE_WIKI_ID);
 	}
 
 	private boolean isPodcastEnabled() {
 		return FC.isEnabled(getUserInst(),
-				Features.PODCAST_LEARNING_CONTENT.getId());
+				FeatureModule.FEATURE_PODCAST_ID);
 	}
 
 	private boolean isBlogsEnabled() {
 		return FC.isEnabled(getUserInst(),
-				Features.BLOGS_LEARNING_CONTENT.getId());
+				FeatureModule.FEATURE_BLOG_ID);
 	}
 
 	private boolean isPortfolioTemplateEnabled() {
 		return FC.isEnabled(getUserInst(),
-				Features.PORTFOLIO_TEMPLATE_LEARNING_CONTENT.getId());
+				FeatureModule.FEATURE_PORTFOLIO_CONTENT_ID);
 	}
 
 	private boolean isTestEnabled() {
 		return FC.isEnabled(getUserInst(),
-				Features.TEST_LEARNING_CONTENT.getId());
+				FeatureModule.FEATURE_TEST_CONTENT);
 	}
 
 	private boolean isQuasitionariesEnabled() {
 		return FC.isEnabled(getUserInst(),
-				Features.QUASITIONARIES_LEARNING_CONTENT.getId());
+				FeatureModule.FEATURE_QUASITIONARIES_ID);
 	}
 
 	private boolean isResourceFolderEnabled() {
 		return FC.isEnabled(getUserInst(),
-				Features.RESOURCE_FOLDER_LEARNING_CONTENT.getId());
+				FeatureModule.FEATURE_RESOURCE_FOLDER_ID);
 	}
 
 	private boolean isGlossaryEnabled() {
 		return FC.isEnabled(getUserInst(),
-				Features.GLOSSARY_LEARNING_CONTENT.getId());
+				FeatureModule.FEATURE_GLOSSARY_ID);
+	}
+	private boolean isCatalogEnabled() {
+		return FC.isEnabled(getUserInst(),
+				FeatureModule.FEATURE_CATALOG_ID);
 	}
 }

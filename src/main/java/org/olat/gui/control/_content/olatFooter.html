@@ -2,11 +2,13 @@
 	#if ($loggedIn)
     	<span id="b_username">$r.translate("footer.logged.in.as", ["$username"])</span>
     #end 
-   <span id="b_counter">($r.render("userCounter") $r.render("other.users.online"))</span>
+   <!-- <span id="b_counter">($r.render("userCounter") $r.render("other.users.online"))</span> -->
 </div>
+#if($r.available("olatversion"))
 <div id="b_footer_version">
 	<a href="http://www.openolat.org"  title="Homepage of the LMS System" target="_blank">$olatversion</a>
 </div>	
+#end
 #if($r.available("shareLink"))
 	$r.render("shareLink")
 #end 

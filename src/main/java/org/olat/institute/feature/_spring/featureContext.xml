@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+  http://www.springframework.org/schema/beans 
+  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+  http://www.springframework.org/schema/context 
+  http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<context:annotation-config />
+
+	<bean id="featureModule" class="org.olat.institute.feature.FeatureModule">
+	<property name="persistedProperties">
+	  <bean class="org.olat.core.configuration.PersistedProperties" scope="prototype" init-method="init" destroy-method="destroy">
+	    <constructor-arg index="0" ref="coordinatorManager"/>
+	    <constructor-arg index="1" ref="baseSecurityModule" />
+	  </bean>
+	</property>
+	</bean>
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="featureModule" />
+		<property name="targetMethod" value="init" />
+		<property name="arguments">
+			<!-- Important: Set tomcats policy to allow read/write access to Root 
+				and TmpDir -->
+			<value>
+				feature.notdefine.id=${feature.notdefine.id}
+				feature.cp.content.id=${feature.cp.content.id}
+				feature.scorm.content.id=${feature.scorm.content.id}
+				feature.course.id=${feature.course.id}
+				feature.wiki.id=${feature.wiki.id}
+				feature.podcast.id=${feature.podcast.id}
+				feature.blog.id=${feature.blog.id}
+				feature.portfolio.content.id=${feature.portfolio.content.id}
+				feature.test.content.id=${feature.test.content.id}
+				feature.quasitionaries.id=${feature.quasitionaries.id}
+				feature.resource.folder.id=${feature.resource.folder.id}
+				feature.glossary.id=${feature.glossary.id}
+				feature.single.page.id=${feature.single.page.id}
+				feature.forum.id=${feature.forum.id}
+				feature.file.dialough.id=${feature.file.dialough.id}
+				feautre.selftest.id=${feautre.selftest.id}
+				feature.enrollment.id=${feature.enrollment.id}
+				features.calender.id=${features.calender.id}
+				feature.course.folder.id=${feature.course.folder.id}
+				feature.task.id=${feature.task.id}
+				feature.external.page.id=${feature.external.page.id}
+				feature.structure.id=${feature.structure.id}
+				feature.assestment.id=${feature.assestment.id}
+				feature.topic.assignment.id=${feature.topic.assignment.id}
+				feature.email.course.id=${feature.email.course.id}
+				features.notification.id=${features.notification.id}
+				feature.lti.course.id=${feature.lti.course.id}
+				feature.participant.list.id=${feature.participant.list.id}
+				feature.link.list.id=${feature.link.list.id}
+				features.bookmark.id=${features.bookmark.id}
+				features.user.home.folder.id=${features.user.home.folder.id}
+				features.notes.id=${features.notes.id}
+				features.otheruser.search.id=${features.otheruser.search.id}
+				features.homepage.id=${features.homepage.id}
+				feature.webdav.id=${feature.webdav.id}
+				feature.catalog.id=${feature.catalog.id}
+				
+				restricated.all.register.user.access.enabled=${restricated.all.register.user.access.enabled}
+				restricated.only.owner.access.enabled=${restricated.only.owner.access.enabled}
+				restricated.owner.otherauthor.access.enabled=${restricated.owner.otherauthor.access.enabled}
+				restricated.all.register.guest.access.enabled=${restricated.all.register.guest.access.enabled}
+				restricated.member.only.access.enabled=${restricated.member.only.access.enabled}
+
+				import.resources.enabled=${import.resources.enabled}
+				
+			</value>
+		</property>
+	</bean>
+</beans>

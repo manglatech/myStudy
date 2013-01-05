@@ -56,4 +56,10 @@ public class InstituteFeatureTableDataModel extends DefaultTableDataModel<Instit
 		return 5;
 	}
 	
+	@Override
+	public Object createCopyWithEmptyList() {
+		InstituteFeatureTableDataModel copy = new InstituteFeatureTableDataModel();
+		return copy;
+	}
+	
 }

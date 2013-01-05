@@ -8,7 +8,7 @@
   <bean id="membersCourseNodeConf" class="org.olat.course.nodes.members.MembersCourseNodeConfiguration" scope="prototype">
 		<property name="enabled" value="${course.node.members.enabled}" />
 		<property name="order"   value="190" />
-		<property name="featureId" value="27" />
+		<property name="featureId" value="${feature.participant.list.id}" />
   </bean>
 
 </beans>

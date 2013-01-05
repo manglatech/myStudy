@@ -8,7 +8,7 @@
 	<bean id="ll" class="de.bps.course.nodes.ll.LLCourseNodeConfiguration" scope="prototype">
 		<property name="enabled" value="${course.node.linklist.enabled}" />
 		<property name="order"   value="240" />
-		<property name="featureId" value="28" />
+		<property name="featureId" value="${feature.link.list.id}" />
 	</bean>
 	
 </beans>

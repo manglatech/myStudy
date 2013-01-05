@@ -35,7 +35,6 @@ import org.olat.course.nodes.AbstractCourseNodeConfiguration;
 import org.olat.course.nodes.CourseNode;
 import org.olat.course.nodes.CourseNodeConfiguration;
 import org.olat.course.nodes.WikiCourseNode;
-import org.olat.institute.feature.util.Features;
 import org.olat.modules.wiki.Wiki;
 /**
  * 

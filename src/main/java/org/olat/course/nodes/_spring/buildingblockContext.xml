@@ -30,101 +30,101 @@
 			function. Define an integer value > 0.
 		-->
 		<property name="maxPeekviewChildNodes" value="10" /> 
-		<property name="featureId" value="21" />
+		<property name="featureId" value="${feature.structure.id}" />
 	</bean>
 
 	<bean id="sp" class="org.olat.course.nodes.sp.SPCourseNodeConfiguration" scope="prototype">
 		<property name="order" value="20" />
-		<property name="featureId" value="12" />
+		<property name="featureId" value="${feature.single.page.id}" />
 	</bean>
 
 	<bean id="tu" class="org.olat.course.nodes.tu.TUCourseNodeConfiguration" scope="prototype">
 		<property name="order" value="30" />		
-		<property name="featureId" value="20" />
+		<property name="featureId" value="${feature.external.page.id}" />
 	</bean>
 	
 	<bean id="cp" class="org.olat.course.nodes.cp.CPCourseNodeConfiguration" scope="prototype" >
 		<property name="order" value="40" />
-		<property name="featureId" value="1" />
+		<property name="featureId" value="${feature.cp.content.id}" />
 	</bean>
 	
 	<bean id="scorm" class="org.olat.course.nodes.scorm.ScormCourseNodeConfiguration" scope="prototype">
 		<property name="order" value="50" />
-		<property name="featureId" value="2" />
+		<property name="featureId" value="${feature.scorm.content.id}" />
 	</bean>	
 	
 	<bean id="fo" class="org.olat.course.nodes.fo.FOCourseNodeConfiguration" scope="prototype">
 		<property name="order" value="90" />
-		<property name="featureId" value="13" />
+		<property name="featureId" value="${feature.forum.id}" />
 	</bean>
 
 	<bean id="wiki" class="org.olat.course.nodes.wiki.WikiCourseNodeConfiguration" scope="prototype">
 		<property name="order" value="60" />
-		<property name="featureId" value="4" />
+		<property name="featureId" value="${feature.wiki.id}" />
 	</bean>
 
 	<bean id="podcast" class="org.olat.course.nodes.feed.podcast.PodcastCourseNodeConfiguration" scope="prototype">
 		<property name="order" value="70" />
-		<property name="featureId" value="5" />
+		<property name="featureId" value="${feature.podcast.id}" />
 	</bean>
 	
 	<bean id="blog" class="org.olat.course.nodes.feed.blog.BlogCourseNodeConfiguration" scope="prototype">
 		<property name="order" value="80" />
-		<property name="featureId" value="6" />
+		<property name="featureId" value="${feature.blog.id}" />
 	</bean>
 
 	<bean id="dialog" class="org.olat.course.nodes.dialog.DialogCourseNodeConfiguration" scope="prototype">
 		<property name="order" value="100" />
-		<property name="featureId" value="14" />
+		<property name="featureId" value="${feature.file.dialough.id}" />
 	</bean>
 	
 	<bean id="bc" class="org.olat.course.nodes.bc.BCCourseNodeConfiguration" scope="prototype">
 		<property name="order" value="51" />
-		<property name="featureId" value="18" />
+		<property name="featureId" value="${feature.course.folder.id}" />
 	</bean>
 	
 	<bean id="ms" class="org.olat.course.nodes.ms.MSCourseNodeConfiguration" scope="prototype">
 		<property name="order" value="120" />
-		<property name="featureId" value="22" />
+		<property name="featureId" value="${feature.assestment.id}" />
 	</bean>
 	
 	<bean id="ta" class="org.olat.course.nodes.ta.TACourseNodeConfiguration" scope="prototype">
 		<property name="order" value="130" />
-		<property name="featureId" value="19" />
+		<property name="featureId" value="${feature.task.id}" />
 	</bean>
 			
 	<bean id="projectbroker" class="org.olat.course.nodes.projectbroker.ProjectBrokerNodeConfiguration" scope="prototype">
 		<property name="order" value="181" />
-		<property name="featureId" value="23" />
+		<property name="featureId" value="${feature.topic.assignment.id}" />
 	</bean>
 
 	<bean id="iqtest" class="org.olat.course.nodes.iq.IQTESTCourseNodeConfiguration" scope="prototype" depends-on="qtiResultManager">
 		<property name="order" value="150" />
-		<property name="featureId" value="8" />
+		<property name="featureId" value="${feature.test.content.id}" />
 	</bean>
 	
 	<bean id="iqself" class="org.olat.course.nodes.iq.IQSELFCourseNodeConfiguration" scope="prototype">
 		<property name="order" value="160" />
-		<property name="featureId" value="15" />
+		<property name="featureId" value="${feautre.selftest.id}" />
 	</bean>
 	
 	<bean id="iqsurv" class="org.olat.course.nodes.iq.IQSURVCourseNodeConfiguration" scope="prototype">
 		<property name="order" value="170" />
-		<property name="featureId" value="9" />
+		<property name="featureId" value="${feature.quasitionaries.id}" />
 	</bean>
 	
 	<bean id="en" class="org.olat.course.nodes.en.ENCourseNodeConfiguration" scope="prototype">
 		<property name="order" value="180" />
-		<property name="featureId" value="16" />
+		<property name="featureId" value="${feature.enrollment.id}" />
 	</bean>
 
 	<bean id="co" class="org.olat.course.nodes.co.COCourseNodeConfiguration" scope="prototype">
 		<property name="order" value="190" />
-		<property name="featureId" value="24" />
+		<property name="featureId" value="${feature.email.course.id}" />
 	</bean>
 		
 	<bean id="cal" class="org.olat.course.nodes.cal.CalCourseNodeConfiguration" scope="prototype">
 		<property name="order" value="200" />
-		<property name="featureId" value="17" />
+		<property name="featureId" value="${features.calender.id}" />
 	</bean>
 </beans>

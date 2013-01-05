@@ -53,7 +53,7 @@ public abstract class GenericDaoHibernateImpl<T, PK extends Serializable> implem
 				.append(" f ");
 		
 		List<T> list = getEntityManager()
-				.createQuery(sb.toString(), type)
+				.createQuery(sb.toString(), getType())
 				.getResultList();
 		
 		return list;

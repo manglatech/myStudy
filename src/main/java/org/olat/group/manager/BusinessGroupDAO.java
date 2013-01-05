@@ -412,6 +412,7 @@ public class BusinessGroupDAO {
 	}
 	
 	private <T> TypedQuery<T> createFindDBQuery(SearchBusinessGroupParams params, OLATResource resource, Class<T> resultClass, BusinessGroupOrder... ordering) {
+		
 		StringBuilder query = new StringBuilder();
 		if(BusinessGroup.class.equals(resultClass)) {
 			query.append("select distinct(bgi) from ");
@@ -663,6 +664,7 @@ public class BusinessGroupDAO {
 	}
 	
 	private <T> TypedQuery<T> createFindViewDBQuery(SearchBusinessGroupParams params, OLATResource resource, Class<T> resultClass, BusinessGroupOrder... ordering) {
+		
 		StringBuilder query = new StringBuilder();
 		if(BusinessGroupView.class.equals(resultClass)) {
 			query.append("select distinct(bgi) from ");

@@ -300,6 +300,12 @@ class NewUserForm extends FormBasicController {
 			psw2TextElement.clearError();
 		}
 		// all checks passed
+		
+		if (!UserManager.getInstance().isInstituteAllowToCreateUsers(ureq.getUserSession().getIdentity().getInstituteId(), 1)) {
+			getWindowControl().setError("You have Reached Limit. Please contact admin to get more users licence.");
+		    return false;
+		}
+		
 		return true;
 	}
 	

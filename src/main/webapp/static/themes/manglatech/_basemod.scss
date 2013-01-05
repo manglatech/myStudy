@@ -1,0 +1,192 @@
+@import "../openolat/all/_basemod.scss";
+
+#b_page{
+
+	// the "to-top"-link
+	a#b_toplink {
+		position: absolute;
+		bottom: 1em;
+		right: 1em;
+		background: transparent url(../openolat/images/arrow_up.png) 0 50% no-repeat;
+		padding-left: 14px;
+		z-index: 5;
+	}
+	
+	@if $enablebiz == true {
+		background:LightGrey;
+	}
+}
+
+
+/** ----------------- HEADER AND TOP NAVIGATION ----------------- **/
+#b_header {
+	height: auto;
+	min-height:30px;
+	
+	overflow:hidden;
+	
+	@if $enablebiz == true {
+		height: 120px;
+		background:LightGrey;
+	}
+	position:relative;
+	
+	background:transparent url('../manglatech/images/openolat_logo_header.png') no-repeat 20px 20px;
+	
+	/* the top-navigation */
+	#b_topnav {
+		position:absolute;
+		right:0px;
+		top:0px;
+		padding:4px 15px 0px 0px;
+		line-height: $top_nav_line_height;
+		min-height: $top_nav_line_height;
+		ul {margin:0;}
+
+		/* fix horizontal alignment by explicitly setting line-height everywhere */		
+	    li, div, span {
+			line-height: $top_nav_line_height;
+	    }
+	    /* fix horizontal alignment by removing top and bottom padding on icons */
+	    .b_with_small_icon_right {
+	  		padding: 0 20px 0 0;
+	  	}
+	  	.b_with_small_icon_left {
+			padding: 0 0 0 20px;
+	  	}
+	  	.b_small_icon {
+	  		height: $top_nav_line_height;
+	  	}
+	    #o_topnav_langchooser {
+	    	select {
+	    		font-size: 90%;
+	    	}
+	    }
+		#o_topnav_search {
+			input {
+	    		font-size: 90%;
+				margin: 0;
+				width: 10em;
+			}
+			a.o_fulltext_search_button {
+		  		height: $top_nav_line_height;
+				background-position: 50% 50%;
+			}  
+		}
+		#o_topnav_printview a {
+			background: url(../openolat/images/printer.png) no-repeat right 50%;
+			padding: 0 20px 0 0;
+			margin: 0;
+		}
+		#o_topnav_logout a {
+			background: url('../openolat/images/control/control-power.png') no-repeat right 50%;
+			padding: 0 20px 0  0;
+			margin: 0;
+			font-weight: bold;
+		}
+
+		li {
+			float:left;
+			list-style: none;
+			margin-left:1.7em;
+			div.b_form_element_wrapper.b_form_horizontal {margin:0;}
+		}
+		
+		li#o_topnav_imclient li {
+			margin-left:0.5em;
+		} 
+	}
+}
+	
+/**  I moved main navigation and sub-navigation (tree) to separate file, 
+but had to include here, don't want to change all layout.scss **/
+@import "nav";
+
+
+/** ----------------- FOOTER ----------------- **/
+
+#b_footer {
+	color: #9D9D9D;
+	padding:0;
+	margin:0;
+	position: relative;
+	min-height: 60px;
+
+	.b_floatbox {
+	
+	}
+	
+	a { 
+		color: $basegray_light; 
+	}
+	
+	#b_footer_user { 
+		position: absolute;
+		top: 1em;
+		left: 1em;
+		line-height: 16px;
+	 	#b_counter {
+	 	}
+	 	#b_username { 
+	 		margin-right: 1.5em;	 		 	
+	 	}
+	}
+	#b_footer_version { 
+		position: absolute;
+		top: 1em;
+		right: 1em;
+	}
+	#b_footer_powered { 
+		padding-top: 1em;
+		text-align: center; 
+		width: auto; 
+		background: none;  
+		a { 
+			display: inline; 
+		} 
+		/* make powerd-by buttons a bit less colorful to not distract user from learning */
+		img {	
+			@include o-opacity(60);
+			&:hover { @include o-opacity(100); }
+		}
+		
+	}
+	/*  social links (FB, twitter, google) from SocialModule.java */
+	#b_share { 
+		position: absolute;
+		top: 2.5em;
+		left: 1em;
+		width:250px; 
+		a, span { 
+			margin: 0 3px 0 0; 
+			background-repeat: no-repeat; 
+			width: 16px; 
+			height: 16px; 
+			float: left; 
+			display: inline; 
+			@include o-opacity(60);
+		}
+		a:hover { 
+			@include o-opacity(100); 
+		}
+		#b_facebook {background-image: url(../openolat/images/social/facebook_16.png);}
+		#b_twitter {background-image: url(../openolat/images/social/twitter_16.png);}
+		#b_google {background-image: url(../openolat/images/social/google_16.png);}
+		#b_delicious {background-image: url(../openolat/images/social/delicious_16.png);}
+		#b_digg {background-image: url(../openolat/images/social/digg_16.png);}
+		#b_mail {background-image: url(../openolat/images/social/email_16.png);}
+		#b_link {background-image: url(../openolat/images/social/link_16.png);}
+	}
+	
+	.fx_footer #b_footer_version {
+		> a { display:block; min-height: 45px; background: transparent url('../../images/frentix/frentix_logo_grey.png') no-repeat left bottom ; }
+		> a:hover { background-image: url('../../images/frentix/frentix_logo.png'); }
+	}	
+	
+	/* remove left/right padding when screen is larger than max width of page */
+	@media (min-width : 1324px) {
+	    #b_share { left: 0; }
+	    #b_footer_user {left: 0; }
+	    #b_footer_version { right: 0; }
+  	}
+}
