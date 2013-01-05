@@ -40,6 +40,9 @@ public class FeeCategoryImpl extends OLATPersistenceObject implements FeeCategor
 	@Column(name = "fk_institute_id")
 	private String instituteId;
 
+	@Column(name = "due_date")
+	private Date dueDate;
+	
 	@OneToMany(mappedBy="feeCategory",targetEntity = FeeMappingImpl.class, cascade=CascadeType.ALL)
     private Set<FeeMapping> feeMapping = new HashSet<FeeMapping>();
 	
@@ -97,5 +100,11 @@ public class FeeCategoryImpl extends OLATPersistenceObject implements FeeCategor
 	}
 	public void setFeeIdentityMapping(Set<FeeIdentityMapping> feeIdentityMapping) {
 		this.feeIdentityMapping = feeIdentityMapping;
+	}
+	public Date getDueDate() {
+		return dueDate;
+	}
+	public void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
 	}
 }

@@ -2,11 +2,13 @@ package org.olat.finance.fee.ui;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.olat.core.gui.components.table.DefaultTableDataModel;
 import org.olat.core.id.UserConstants;
 import org.olat.finance.fee.model.FeeIdentityMapping;
+import org.olat.finance.user.payment.model.UserPaymentInfo;
 
 public class FeeIdentityMappingListTDM extends
 		DefaultTableDataModel<FeeIdentityMapping> {
@@ -29,6 +31,11 @@ public class FeeIdentityMappingListTDM extends
 	 */
 	public final Object getValueAt(int row, int col) {
 		FeeIdentityMapping f = (FeeIdentityMapping) getObject(row);
+		Set<UserPaymentInfo> payments = null;
+		if(f != null){
+			payments = f.getUserPayments();
+		}
+		
 		switch (col) {
 		case 0:
 			String name = StringEscapeUtils.escapeHtml(f.getIdentity().getName())
@@ -39,11 +46,18 @@ public class FeeIdentityMappingListTDM extends
 					f.getIdentity().getUser().getProperty(UserConstants.EMAIL,null));
 			return email;
 		case 2:
-			Integer paid_price = f.getPaid();
-			return paid_price;
+			if(payments != null){
+				return payments.size();
+			}
+			return 0;
 		case 3:
-			Integer remaining_price = f.getPaid();
-			return remaining_price;	
+			Integer paymnetAmt = 0;
+			if(payments != null){
+				for(UserPaymentInfo info : payments){
+					paymnetAmt += info.getPaidAmount();
+				}
+			}
+			return paymnetAmt;	
 		default:
 			return "error";
 		}

@@ -4,11 +4,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import org.olat.basesecurity.BaseSecurityManager;
-import org.olat.basesecurity.events.SingleIdentityChosenEvent;
 import org.olat.core.CoreSpringFactory;
 import org.olat.core.gui.UserRequest;
 import org.olat.core.gui.components.Component;
+import org.olat.core.gui.components.table.ColumnDescriptor;
 import org.olat.core.gui.components.table.DefaultColumnDescriptor;
 import org.olat.core.gui.components.table.Table;
 import org.olat.core.gui.components.table.TableController;
@@ -19,22 +18,14 @@ import org.olat.core.gui.components.velocity.VelocityContainer;
 import org.olat.core.gui.control.Controller;
 import org.olat.core.gui.control.Event;
 import org.olat.core.gui.control.WindowControl;
-import org.olat.core.gui.control.controller.BasicController;
-import org.olat.core.gui.control.generic.closablewrapper.CloseableModalController;
-import org.olat.core.gui.control.generic.dtabs.Activateable2;
-import org.olat.core.id.Identity;
 import org.olat.core.id.context.ContextEntry;
 import org.olat.core.id.context.StateEntry;
 import org.olat.course.member.MemberListController;
 import org.olat.finance.fee.manager.FeeService;
-import org.olat.finance.fee.model.FeeCategory;
-import org.olat.finance.fee.model.SingleFeeCategoryChosenEvent;
-import org.olat.finance.fee.ui.AssingFeeCategoryListController;
 import org.olat.finance.user.manager.UserAccountService;
 import org.olat.finance.user.model.UserAccountView;
 
-public class SelectUserAccountController extends BasicController implements
-		Activateable2 {
+public class SelectUserAccountController extends AbstractUserAccountController {
 
 	private final UserAccountSearchController searchController;
 
@@ -42,11 +33,11 @@ public class SelectUserAccountController extends BasicController implements
 			.getCanonicalName();
 
 	protected static final String TABLE_ACTION_PAY_IN_FULL = "uaTblPayInFull";
+	protected static final String TABLE_ACTION_OPEN_ACCOUNT = "uaTblOpenAccount";
 	protected static final String TABLE_ACTION_ASSIGN_TEMPLATE = "uaTblAssignFee";
 	protected static final String TABLE_ACTION_EMAIL_INVOICE = "uaTblEmailInvoice";
 	protected static final String TABLE_ACTION_MAKE_PAYMENT = "bgTblMakePayment";
-	protected static final String TABLE_ACTION_PAYMENT_DETAILS = "uaTblPaymentDetails";
-	protected static final String TABLE_ACTION_TEMPLLATE_DETAILS = "uaTblTemplateDetails";
+	
 
 	
 	protected final UserAccountSearchDataModel userAccountSearchListModel;
@@ -55,10 +46,6 @@ public class SelectUserAccountController extends BasicController implements
 	protected Locale locale;
 	private UserAccountService userAccountService;
 	protected UserAccountSearchParams lastSearchParams;
-
-	private AddPaymentController addPayment;
-	protected CloseableModalController cmc;
-	private AssingFeeCategoryListController assignController;
 	protected UserAccountDetailController userAccountDetailContoller;
 	
 	//TODO: Remove this:
@@ -103,8 +90,10 @@ public class SelectUserAccountController extends BasicController implements
 	
 	protected void initButtons(UserRequest ureq) {
 		userAccountListCtr.setMultiSelect(true);
-		userAccountListCtr.addMultiSelectAction("Pay In Full", TABLE_ACTION_PAY_IN_FULL);
-		userAccountListCtr.addMultiSelectAction("Email Invoice", TABLE_ACTION_EMAIL_INVOICE);
+		userAccountListCtr.addMultiSelectAction("close.account", TABLE_ACTION_PAY_IN_FULL);
+		userAccountListCtr.addMultiSelectAction("open.account", TABLE_ACTION_OPEN_ACCOUNT);
+		//TODO:In Next Version. 
+		//userAccountListCtr.addMultiSelectAction("Email Invoice", TABLE_ACTION_EMAIL_INVOICE);
 	}
 	
 	protected void initColumns() {
@@ -113,20 +102,31 @@ public class SelectUserAccountController extends BasicController implements
 				"table.user.account.user.name", 0, TABLE_ACTION_PAYMENT_DETAILS, locale));
 		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
 				"table.user.account.user.email", 1, null, locale));
+		
+		DefaultColumnDescriptor amount = new DefaultColumnDescriptor("table.user.account.user.total.amount", 2, null, locale);
+		amount.setAlignment(DefaultColumnDescriptor.ALIGNMENT_CENTER);
+		userAccountListCtr.addColumnDescriptor(amount);
+		
+		DefaultColumnDescriptor paid = new DefaultColumnDescriptor("table.user.account.user.amount.paid", 3, null, locale);
+		paid.setAlignment(DefaultColumnDescriptor.ALIGNMENT_CENTER);
+		userAccountListCtr.addColumnDescriptor(paid);
+		
+		DefaultColumnDescriptor remaining = new DefaultColumnDescriptor(
+				"table.user.account.user.amount.remaining", 4, null, locale);
+		remaining.setAlignment(DefaultColumnDescriptor.ALIGNMENT_CENTER);
+		userAccountListCtr.addColumnDescriptor(false,remaining);
+		
 		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.user.account.user.template", 2, TABLE_ACTION_TEMPLLATE_DETAILS, locale));
+				"table.user.account.user.paid.status", 5, null, locale));
 		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.user.account.user.total.amount", 3, null, locale));
+				"table.user.account.user.pay", 6, TABLE_ACTION_MAKE_PAYMENT, locale));
 		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.user.account.user.amount.paid", 4, null, locale));
-		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.user.account.user.amount.remaining", 5, null, locale));
-		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.user.account.user.paid.status", 6, null, locale));
-		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.user.account.user.pay", 7, TABLE_ACTION_MAKE_PAYMENT, locale));
-		userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.user.account.user.assign", 8, TABLE_ACTION_ASSIGN_TEMPLATE, locale));
+				"table.user.account.user.template", 7, TABLE_ACTION_TEMPLLATE_DETAILS, locale));
+		userAccountListCtr.addColumnDescriptor(false,new DefaultColumnDescriptor(
+				"table.user.account.user.template.due.date", 8, null, locale));
+		
+		/*userAccountListCtr.addColumnDescriptor(new DefaultColumnDescriptor(
+				"table.user.account.user.assign", 8, TABLE_ACTION_ASSIGN_TEMPLATE, locale));*/
 	}
 
 	@Override
@@ -145,13 +145,13 @@ public class SelectUserAccountController extends BasicController implements
 				
 				UserAccountView view = userAccountSearchListModel.getObject(te.getRowId());
 				if (actionid.equals(TABLE_ACTION_MAKE_PAYMENT)) {
-					doPaymentForUser(ureq, view);
+					doPaymentForUser(ureq, view.getFeeCategory(), view.getIdentity());
 				}/*else if(actionid.equals(TABLE_ACTION_ASSIGN_TEMPLATE)){
 					doViewFee(ureq, view);
 				}*/else if(actionid.equals(TABLE_ACTION_PAYMENT_DETAILS)){
-					doViewAccountDetails(ureq,view);
+					doViewAccountDetails(ureq,view.getIdentity());
 				}else if(actionid.equals(TABLE_ACTION_TEMPLLATE_DETAILS)){
-					doViewFeeCategoryDetails(ureq, view);
+					doViewFeeCategoryDetails(ureq, view.getFeeCategory());
 				}
 			} else if (event instanceof TableMultiSelectEvent) {
 				TableMultiSelectEvent te = (TableMultiSelectEvent)event;
@@ -163,6 +163,8 @@ public class SelectUserAccountController extends BasicController implements
 					}
 				} else if(TABLE_ACTION_PAY_IN_FULL.equals(te.getAction())) {
 					doPayInFull(selectedItems);
+				} else if(TABLE_ACTION_OPEN_ACCOUNT.equals(te.getAction())){
+					doOpenAccount(selectedItems);
 				}
 			}
 		} else if (source == addPayment) {
@@ -183,55 +185,23 @@ public class SelectUserAccountController extends BasicController implements
 	}
 	
 	protected UserAccountDetailController controller;
-	private void doViewAccountDetails(UserRequest ureq, UserAccountView view) {
-		SingleIdentityChosenEvent identityEvent = new SingleIdentityChosenEvent(view.getIdentity());
-		fireEvent(ureq, identityEvent);
-	}
-	private void doViewFeeCategoryDetails(UserRequest ureq, UserAccountView view){
-		fireEvent(ureq, new SingleFeeCategoryChosenEvent(view.getFeeCategory()));
-	}
-
-	/*protected void doViewFee(UserRequest ureq, UserAccountView view) {
-		removeAsListenerAndDispose(assignController);
-		assignController = new AssingFeeCategoryListController(ureq, getWindowControl(), view);
-		listenTo(assignController);
-
-		cmc = new CloseableModalController(getWindowControl(),
-				translate("close"), assignController.getInitialComponent(), true,
-				translate("add.payment.form.title"));
-		cmc.activate();
-		listenTo(cmc);
-		
-	}*/
 	
-//	protected void doAssignFee(UserRequest ureq, SingleFeeCategoryChosenEvent feeCategory) {
-//		FeeCategory category = feeCategory.getChosenFeeCategory();
-//		UserAccountView view = assignController.getView();
-//		userAccountService.assingFeeCategory(category,view);
-//	}
+	
 
 	private void reloadModel() {
 		updateTableModel(lastSearchParams);
 		userAccountListCtr.modelChanged();
 	}
 	
-	private void doPaymentForUser(UserRequest ureq, UserAccountView view) {
-		
-		removeAsListenerAndDispose(addPayment);
-		addPayment = new AddPaymentController(ureq, getWindowControl(), view);
-		listenTo(addPayment);
-
-		cmc = new CloseableModalController(getWindowControl(),
-				translate("close"), addPayment.getInitialComponent(), true,
-				translate("add.payment.form.title"));
-		cmc.activate();
-		listenTo(cmc);
-		
-	}
+	
 
 
 	private void doPayInFull(List<UserAccountView> selectedItems) {
-		userAccountService.markAccountAsPaidInFull(selectedItems);
+		userAccountService.markAccountAsClosed(selectedItems);
+		reloadModel();
+	}
+	private void doOpenAccount(List<UserAccountView> selectedItems) {
+		userAccountService.markAccountAsOpen(selectedItems);
 		reloadModel();
 	}
 

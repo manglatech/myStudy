@@ -3,6 +3,7 @@ package org.olat.finance.fee.ui;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.olat.admin.user.UserSearchController;
 import org.olat.basesecurity.events.MultiIdentityChosenEvent;
@@ -13,22 +14,28 @@ import org.olat.core.gui.components.Component;
 import org.olat.core.gui.components.link.Link;
 import org.olat.core.gui.components.link.LinkFactory;
 import org.olat.core.gui.components.table.DefaultColumnDescriptor;
+import org.olat.core.gui.components.table.Table;
 import org.olat.core.gui.components.table.TableController;
+import org.olat.core.gui.components.table.TableEvent;
 import org.olat.core.gui.components.table.TableGuiConfiguration;
 import org.olat.core.gui.components.table.TableMultiSelectEvent;
 import org.olat.core.gui.components.velocity.VelocityContainer;
 import org.olat.core.gui.control.Controller;
 import org.olat.core.gui.control.Event;
 import org.olat.core.gui.control.WindowControl;
-import org.olat.core.gui.control.controller.BasicController;
 import org.olat.core.gui.control.generic.closablewrapper.CloseableModalController;
 import org.olat.core.id.Identity;
+import org.olat.core.id.context.ContextEntry;
+import org.olat.core.id.context.StateEntry;
 import org.olat.core.util.event.GenericEventListener;
 import org.olat.finance.fee.manager.FeeService;
 import org.olat.finance.fee.model.FeeCategory;
 import org.olat.finance.fee.model.FeeIdentityMapping;
+import org.olat.finance.user.model.UserAccountView;
+import org.olat.finance.user.payment.model.UserPaymentInfo;
+import org.olat.finance.user.ui.AbstractUserAccountController;
 
-public class FeeIdentityMappingListController extends BasicController implements
+public class FeeIdentityMappingListController extends AbstractUserAccountController implements
 		GenericEventListener {
 
 	private static final String TABLE_ACTION_DELETE = "feeMappingTblDelete";
@@ -90,13 +97,13 @@ public class FeeIdentityMappingListController extends BasicController implements
 				getTranslator());
 		listenTo(tableC);
 		tableC.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.fee.identity.maping.name", 0, null, locale));
+				"table.fee.identity.maping.name", 0, TABLE_ACTION_PAYMENT_DETAILS, locale));
 		tableC.addColumnDescriptor(new DefaultColumnDescriptor(
 				"table.fee.identity.mapping.email", 1, null, locale));
 		tableC.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.fee.identity.mapping.paid.price", 2, null, locale));
+				"table.fee.identity.mapping.total.payments", 2, null, locale));
 		tableC.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.fee.identity.mapping.remaining.price", 3, null, locale));
+				"table.fee.identity.mapping.paid.price", 3, null, locale));
 	}
 
 	private TableGuiConfiguration initTableConfiguration() {
@@ -111,8 +118,18 @@ public class FeeIdentityMappingListController extends BasicController implements
 	public void event(Event event) {
 	}
 	public void event(UserRequest ureq, Controller source, Event event) {
+			
 		if(source == tableC){
-			if (event instanceof TableMultiSelectEvent) {
+			if (event.getCommand().equals(Table.COMMANDLINK_ROWACTION_CLICKED)) {
+				TableEvent te = (TableEvent) event;
+				String actionid = te.getActionId();
+				FeeIdentityMapping mapping = feeMappingModel.getObject(te.getRowId());
+				
+				if(actionid.equals(TABLE_ACTION_PAYMENT_DETAILS)){
+					doViewAccountDetails(ureq,mapping.getIdentity());
+				}
+				
+			}else if (event instanceof TableMultiSelectEvent) {
 				TableMultiSelectEvent te = (TableMultiSelectEvent) event;
 				List<FeeIdentityMapping> selectedItems = feeMappingModel.getObjects(te
 						.getSelection());
@@ -198,6 +215,13 @@ public class FeeIdentityMappingListController extends BasicController implements
 			showWarning("msg.delete.fee.identity.mappings");
 			return;
 		}
+		for(FeeIdentityMapping mapping : selectedItems){
+			Set<UserPaymentInfo> payments = mapping.getUserPayments();
+			if(payments != null && payments.size() > 0){
+				showWarning("msg.cannot.delete.fee.identity.mappings");
+				return;
+			}
+		}
 		List<Long> ids = new ArrayList<Long>();
 		for (FeeIdentityMapping feeMapping : selectedItems) {
 			ids.add(feeMapping.getKey());
@@ -242,6 +266,13 @@ public class FeeIdentityMappingListController extends BasicController implements
 	protected void doDispose() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void activate(UserRequest ureq, List<ContextEntry> entries,
+			StateEntry state) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

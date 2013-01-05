@@ -1,6 +1,7 @@
 package org.olat.finance.user.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,6 +48,9 @@ public class UserAccountViewImpl implements UserAccountView {
 	@Column(name = "paid_status")
 	private Integer paidStatusId;
 	
+	@Column(name = "due_date")
+	private Date dueDate;
+	
 	public Identity getIdentity() {
 		return identity;
 	}
@@ -88,7 +92,29 @@ public class UserAccountViewImpl implements UserAccountView {
 	public Integer getPaidStatusId() {
 		return paidStatusId;
 	}
-	
+	public Date getDueDate() {
+		return dueDate;
+	}
+	public String getPaidStatus() {
+		
+		String status;
+		if(PaidStatus.MARK_AS_PAID.getId() == getPaidStatusId()){
+			status = PaidStatus.MARK_AS_PAID.getValue();
+		}else if(getTotalAmount() == 0){
+			status = PaidStatus.NO_FEE_FOUND.getValue();
+		}else if(getPaidAmount() == 0){
+			status = PaidStatus.NOT_PAID.getValue();
+		}else if(getTotalAmount() > getPaidAmount()){
+			status = PaidStatus.PARTIAL_PAID.getValue();
+		}else if(getPaidAmount() > getTotalAmount()){
+			status = PaidStatus.OVER_PAID.getValue();
+		}else if(getTotalAmount().equals(getPaidAmount())){
+			status = PaidStatus.PAID.getValue();
+		}else{
+			status = "NA";
+		}
+		return status;
+	}
 }
 
 class UserAccountViewPK implements Serializable {

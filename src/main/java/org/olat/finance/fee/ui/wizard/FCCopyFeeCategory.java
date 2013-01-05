@@ -92,5 +92,17 @@ public class FCCopyFeeCategory implements FeeCategory{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public Date getDueDate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setDueDate(Date dueDate) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

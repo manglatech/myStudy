@@ -141,7 +141,7 @@ public class FeeServiceImpl implements FeeService {
 		FeeIdentityMapping mapping = new FeeIdentityMappingImpl();
 		mapping.setFeeCategory(feeCategory);
 		mapping.setIdentity(identity);
-		mapping.setPaid(PaidStatus.NOT_PAID.getId());
+		mapping.setPaid(PaidStatus.NOT_DEFINE.getId());
 		feeIdentityMappingDao.create(mapping);
 	}
 	

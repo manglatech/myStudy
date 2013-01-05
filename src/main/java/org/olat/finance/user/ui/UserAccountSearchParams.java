@@ -1,5 +1,7 @@
 package org.olat.finance.user.ui;
 
+import java.util.Date;
+
 import org.olat.finance.user.util.PaidStatus;
 
 
@@ -11,6 +13,8 @@ public class UserAccountSearchParams {
 	private String groupName;
 	private String userName;
 	private String templateName;
+	private Date dueDate;
+	
 	private String instituteId;
 	private PaidStatus paidStatus;
 	
@@ -44,5 +48,12 @@ public class UserAccountSearchParams {
 	public void setPaidStatus(PaidStatus paidStatus) {
 		this.paidStatus = paidStatus;
 	}
+	public Date getDueDate() {
+		return dueDate;
+	}
+	public void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
+	}
+	
 	
 }

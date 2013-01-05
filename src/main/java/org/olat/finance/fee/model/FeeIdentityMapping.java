@@ -1,9 +1,12 @@
 package org.olat.finance.fee.model;
 
+import java.util.Set;
+
 import org.olat.core.id.CreateInfo;
 import org.olat.core.id.Identity;
 import org.olat.core.id.ModifiedInfo;
 import org.olat.core.id.Persistable;
+import org.olat.finance.user.payment.model.UserPaymentInfo;
 
 public interface FeeIdentityMapping extends Persistable, ModifiedInfo, CreateInfo{
 
@@ -15,5 +18,8 @@ public interface FeeIdentityMapping extends Persistable, ModifiedInfo, CreateInf
 	
 	public Identity getIdentity();
 	public void setIdentity(Identity identity);
+	
+	public Set<UserPaymentInfo> getUserPayments();
+	public void setUserPayments(Set<UserPaymentInfo> userPayments);
 	
 }

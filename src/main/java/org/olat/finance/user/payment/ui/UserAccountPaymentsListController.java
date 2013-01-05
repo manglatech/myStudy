@@ -7,8 +7,6 @@ import java.util.Locale;
 import org.olat.core.CoreSpringFactory;
 import org.olat.core.gui.UserRequest;
 import org.olat.core.gui.components.Component;
-import org.olat.core.gui.components.link.Link;
-import org.olat.core.gui.components.link.LinkFactory;
 import org.olat.core.gui.components.table.DefaultColumnDescriptor;
 import org.olat.core.gui.components.table.TableController;
 import org.olat.core.gui.components.table.TableGuiConfiguration;
@@ -17,32 +15,29 @@ import org.olat.core.gui.components.velocity.VelocityContainer;
 import org.olat.core.gui.control.Controller;
 import org.olat.core.gui.control.Event;
 import org.olat.core.gui.control.WindowControl;
-import org.olat.core.gui.control.controller.BasicController;
 import org.olat.core.gui.control.generic.closablewrapper.CloseableModalController;
 import org.olat.core.gui.control.generic.modal.DialogBoxController;
 import org.olat.core.gui.control.generic.modal.DialogBoxUIFactory;
 import org.olat.core.id.Identity;
-import org.olat.core.util.event.GenericEventListener;
+import org.olat.core.id.context.ContextEntry;
+import org.olat.core.id.context.StateEntry;
+import org.olat.finance.fee.model.SingleFeeCategoryChosenEvent;
+import org.olat.finance.fee.ui.AssingFeeCategoryListController;
 import org.olat.finance.user.payment.manager.UserPaymentService;
 import org.olat.finance.user.payment.model.UserPaymentInfo;
+import org.olat.finance.user.ui.AbstractUserAccountController;
 import org.olat.finance.user.ui.AddPaymentController;
 
-public class UserAccountPaymentsListController extends BasicController
-		implements GenericEventListener {
+public class UserAccountPaymentsListController extends AbstractUserAccountController {
 
 	protected static final String TABLE_ACTION_DELETE = "feeTblDelete";
-	protected static final String TABLE_ACTION_DELETE_CHILD = "feeTblDeleteChilds";
-	protected static final String TABLE_ACTION_ADD_CHILD = "feeTblAddChilds";
-	protected static final String TABLE_ACTION_CREATE = "feeTblCreate";
-	protected static final String TABLE_ENTITY_SELECT = "choose";
+	protected static final String TABLE_TRASFER_PAYMENT = "feeTblDeleteChilds";
 
 	protected UserAccountListTDM uaPaymentModel;
-	protected UserPaymentService userAccountService = null;
+	protected UserPaymentService userPaymentService = null;
 	protected TableController tableC;
 	protected Locale locale;
 	protected CloseableModalController cmc;
-
-	private Link addPayment;
 	protected VelocityContainer mainVC;
 	private DialogBoxController confirmRemoveResource;
 
@@ -54,7 +49,7 @@ public class UserAccountPaymentsListController extends BasicController
 
 		super(ureq, wControl);
 		this.locale = ureq.getLocale();
-		this.userAccountService = CoreSpringFactory
+		this.userPaymentService = CoreSpringFactory
 				.getImpl(UserPaymentService.class);
 		this.identity = identity;
 
@@ -76,7 +71,7 @@ public class UserAccountPaymentsListController extends BasicController
 				getTranslator(), true);
 		listenTo(tableC);
 		tableC.addColumnDescriptor(new DefaultColumnDescriptor(
-				"table.payment.key", 0, null, locale));
+				"table.payment.fee.category.name", 0, null, locale));
 		tableC.addColumnDescriptor(new DefaultColumnDescriptor(
 				"table.payment.amount", 1, null, locale));
 		tableC.addColumnDescriptor(new DefaultColumnDescriptor(
@@ -97,8 +92,7 @@ public class UserAccountPaymentsListController extends BasicController
 
 	protected void initButtons(UserRequest ureq) {
 		tableC.addMultiSelectAction("table.delete.payment", TABLE_ACTION_DELETE);
-		addPayment = LinkFactory.createButton("add.payments", mainVC, this);
-		addPayment.setElementCssClass("o_sel_group_create");
+		tableC.addMultiSelectAction("table.transfer.payment", TABLE_TRASFER_PAYMENT);
 	}
 
 	protected void reloadModel() {
@@ -116,7 +110,7 @@ public class UserAccountPaymentsListController extends BasicController
 		for (UserPaymentInfo fee : selectedItems) {
 			ids.add(fee.getKey());
 		}
-		userAccountService.deletePayments(ids);
+		userPaymentService.deletePayments(ids);
 	}
 
 	protected void doDispose() {
@@ -124,21 +118,30 @@ public class UserAccountPaymentsListController extends BasicController
 
 	@SuppressWarnings("unused")
 	public void event(UserRequest ureq, Component source, Event event) {
-		/*if (source == createButton) {
-
-			removeAsListenerAndDispose(feeCreate);
-			feeCreate = new AddPaymentController(ureq, getWindowControl());
-			listenTo(feeCreate);
-
-			cmc = new CloseableModalController(getWindowControl(),
-					translate("close"), feeCreate.getInitialComponent(), true,
-					translate("create.form.title"));
-			cmc.activate();
-			listenTo(cmc);
-
-		}*/
 	}
+	
+	private AssingFeeCategoryListController<UserPaymentInfo> assignController;
+	private void doSelectFeeCategory(UserRequest ureq,
+			List<UserPaymentInfo> selectedItems) {
+		
+		removeAsListenerAndDispose(assignController);
+		assignController = new AssingFeeCategoryListController<UserPaymentInfo>(ureq, getWindowControl(), selectedItems);
+		listenTo(assignController);
 
+		cmc = new CloseableModalController(getWindowControl(),
+				translate("close"), assignController.getInitialComponent(), true,
+				translate("transfer.payment.form.title"));
+		cmc.activate();
+		listenTo(cmc);
+
+	}
+	
+	private void doTransferToFeeCategory(UserRequest ureq,
+			SingleFeeCategoryChosenEvent feeCategory) {
+		List<UserPaymentInfo> info = assignController.getEntities();
+		userPaymentService.transferPayments(info,this.identity, feeCategory.getChosenFeeCategory());
+	}
+	
 	public void event(UserRequest ureq, Controller source, Event event) {
 		if (source == tableC) {
 			if (event instanceof TableMultiSelectEvent) {
@@ -152,6 +155,8 @@ public class UserAccountPaymentsListController extends BasicController
 					confirmRemoveResource = activateYesNoDialog(ureq, null,
 							text, this.confirmRemoveResource);
 					confirmRemoveResource.setUserObject(selectedItems);
+				}else if(TABLE_TRASFER_PAYMENT.equals(te.getAction())){
+					doSelectFeeCategory(ureq,selectedItems);
 				}
 			}
 		} else if (source == addPaymentContoller) {
@@ -165,20 +170,25 @@ public class UserAccountPaymentsListController extends BasicController
 				deletePayment(ureq, selectedItems);
 				reloadModel();
 			}
+		}else if (source == assignController){
+			if(event instanceof SingleFeeCategoryChosenEvent){
+				SingleFeeCategoryChosenEvent feeCategory = (SingleFeeCategoryChosenEvent) event;
+				doTransferToFeeCategory(ureq, feeCategory);
+				cmc.deactivate();
+				removeAsListenerAndDispose(cmc);
+				reloadModel();
+			}
 		}
-
 	}
-
 	public void populateUserPaymentInfo() {
-		List<UserPaymentInfo> payments = userAccountService
+		List<UserPaymentInfo> payments = userPaymentService
 				.findUserPayments(this.identity.getKey());
 		uaPaymentModel = new UserAccountListTDM(payments, locale);
 		tableC.setTableDataModel(uaPaymentModel);
 	}
-
+	
 	@Override
-	public void event(Event event) {
-		// TODO Auto-generated method stub
-		
+	public void activate(UserRequest ureq, List<ContextEntry> entries,
+			StateEntry state) {
 	}
 }

@@ -1,5 +1,7 @@
 package org.olat.finance.user.ui;
 
+import java.util.Date;
+
 import org.olat.core.gui.control.Event;
 import org.olat.core.id.Identity;
 import org.olat.core.id.context.StateEntry;
@@ -11,6 +13,8 @@ public class UserAccountSearchEvent extends Event implements StateEntry {
 	private static final long serialVersionUID = 3978824313870707336L;
 	private String groupName;
 	private String templateName;
+	private Date dueDate;
+	
 	private String userName;
 	
 	private boolean isAllStatus;
@@ -88,6 +92,14 @@ public class UserAccountSearchEvent extends Event implements StateEntry {
 		this.isMarkAsPaid = isMarkAsPaid;
 	}
 
+	public Date getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
+	}
+
 	public UserAccountSearchParams convertToSearchBusinessGroupParams(Identity identity) {
 		UserAccountSearchParams params = new UserAccountSearchParams();
 		
@@ -95,6 +107,7 @@ public class UserAccountSearchEvent extends Event implements StateEntry {
 		params.setUserName((StringHelper.containsNonWhitespace(userName)) ? userName : null);
 		params.setTemplateName((StringHelper.containsNonWhitespace(templateName)) ? templateName : null);
 		params.setInstituteId(identity.getInstituteId());
+		params.setDueDate(dueDate);
 		
 		if(isPaidStatus){
 			params.setPaidStatus(PaidStatus.PAID);
@@ -120,6 +133,7 @@ public class UserAccountSearchEvent extends Event implements StateEntry {
 		clone.isPartialPaidStatus = isPartialPaidStatus;
 		clone.isUnPaidStatus = isUnPaidStatus;
 		clone.isMarkAsPaid = isMarkAsPaid;
+		clone.dueDate = dueDate;
 		
 		return clone;
 	}

@@ -266,6 +266,8 @@ public class FeeCategoryListController extends BasicController implements
 				"table.fee.template.name", 0, TABLE_ENTITY_SELECT, locale));
 		tableC.addColumnDescriptor(new DefaultColumnDescriptor(
 				"table.fee.template.desc", 1, null, locale));
+		tableC.addColumnDescriptor(new DefaultColumnDescriptor(
+				"table.fee.template.due.date", 2, null, locale));
 	}
 
 	protected String getNoFeeMsg() {

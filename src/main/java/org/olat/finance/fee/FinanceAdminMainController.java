@@ -221,7 +221,12 @@ public class FinanceAdminMainController extends MainLayoutBasicController {
 			addToHistory(ureq, bwControl);
 			listenTo(contentCtr);
 			return contentCtr.getInitialComponent();
-		} else {
+		} else if(uobject.equals(USER_ACCOUNT_PREDEFINE_SEARCH_LIST_UOBJECT)){
+			contentCtr = new SelectUserAccountController(ureq, bwControl);
+			addToHistory(ureq, bwControl);
+			listenTo(contentCtr);
+			return contentCtr.getInitialComponent();
+		}else {
 			throw new AssertException(
 					"did not expect to land here in UserAdminMainController this is because uboject is "
 							+ uobject.toString());
@@ -254,12 +259,13 @@ public class FinanceAdminMainController extends MainLayoutBasicController {
 		admin.setDelegate(gtnChild);
 		admin.addChild(gtnChild);
 		
-		gtnChild = new GenericTreeNode();
+		/*TODO: Next Version:
+		 * gtnChild = new GenericTreeNode();
 		gtnChild.setTitle(translator.translate("user.account.predefine.search"));
 		gtnChild.setUserObject(USER_ACCOUNT_PREDEFINE_SEARCH_LIST_UOBJECT);
 		gtnChild.setAltText(translator.translate("user.account.predefine.search.alt"));
 		admin.setDelegate(gtnChild);
-		admin.addChild(gtnChild);
+		admin.addChild(gtnChild);*/
 		
 		feeAdmin = new GenericTreeNode();
 		feeAdmin.setTitle(translator.translate("fee.admin"));

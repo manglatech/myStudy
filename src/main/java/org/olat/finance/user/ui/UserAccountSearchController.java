@@ -1,10 +1,12 @@
 package org.olat.finance.user.ui;
 
+import java.util.Date;
 import java.util.List;
 
 import org.olat.core.gui.UserRequest;
 import org.olat.core.gui.components.form.flexible.FormItem;
 import org.olat.core.gui.components.form.flexible.FormItemContainer;
+import org.olat.core.gui.components.form.flexible.elements.DateChooser;
 import org.olat.core.gui.components.form.flexible.elements.SingleSelection;
 import org.olat.core.gui.components.form.flexible.elements.TextElement;
 import org.olat.core.gui.components.form.flexible.impl.FormBasicController;
@@ -22,6 +24,8 @@ public class UserAccountSearchController extends FormBasicController implements 
 
 	private TextElement userName; 
 	private TextElement templateName;
+	private DateChooser dueDate;
+	
 	private FormSubmit searchButton;
 	private SingleSelection paidStatusEl;
 	//private MultipleSelectionElement headlessEl;
@@ -44,6 +48,11 @@ public class UserAccountSearchController extends FormBasicController implements 
 		
 		templateName = uifactory.addTextElement("usc_templatename", "usc.templatename", 255, "", formLayout);
 		templateName.setDisplaySize(28);
+		
+		dueDate = uifactory.addDateChooser("usc_due_date", "usc.due.date", "", formLayout);
+		dueDate.setDateChooserTimeEnabled(false);
+		dueDate.setDateChooserDateFormat("%d.%m.%Y %H:%M");
+		dueDate.setCustomDateFormat("EEE, MMM d, yyyy");
 		
 		//roles
 		String[] paidStatusValues = new String[paidStatusKeys.length];
@@ -71,6 +80,10 @@ public class UserAccountSearchController extends FormBasicController implements 
 	
 	public String getUserName() {
 		return userName.getValue();
+	}
+	
+	public Date getDueDate(){
+		return dueDate.getDate();
 	}
 	
 	public boolean isEmpty() {
@@ -131,6 +144,7 @@ public class UserAccountSearchController extends FormBasicController implements 
 		UserAccountSearchEvent e = new UserAccountSearchEvent();
 		e.setUserName(getUserName());
 		e.setTemplateName(getTemplateName());
+		e.setDueDate(getDueDate());
 		
 		if(paidStatusEl != null && paidStatusEl.isOneSelected()) {
 			e.setAllStatus(paidStatusEl.isSelected(0));

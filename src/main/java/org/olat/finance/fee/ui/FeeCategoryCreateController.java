@@ -85,6 +85,7 @@ public class FeeCategoryCreateController extends BasicController  {
 				newFeeCategory.setName(name);
 				newFeeCategory.setDescription(desc);
 				newFeeCategory.setInstituteId(getUserInst());
+				newFeeCategory.setDueDate(feeFormController.getDueDate().getDate());
 				
 				feeService.createFeeCategory(getIdentity(), newFeeCategory);
 				fireEvent(ureq, Event.DONE_EVENT);

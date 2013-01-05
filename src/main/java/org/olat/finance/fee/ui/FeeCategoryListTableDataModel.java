@@ -66,6 +66,8 @@ public class FeeCategoryListTableDataModel extends DefaultTableDataModel<FeeCate
 			case 1 :
 				String desc = StringEscapeUtils.escapeHtml(f.getDescription()).toString();
 				return desc;
+			case 2 :
+				return f.getDueDate();
 			default :
 				return "error";
 		}
@@ -75,7 +77,7 @@ public class FeeCategoryListTableDataModel extends DefaultTableDataModel<FeeCate
 	 * @see org.olat.core.gui.components.table.TableDataModel#getColumnCount()
 	 */
 	public int getColumnCount() {
-		return 2;
+		return 3;
 	}
 	
 	@Override

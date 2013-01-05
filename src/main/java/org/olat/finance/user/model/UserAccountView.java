@@ -1,6 +1,7 @@
 package org.olat.finance.user.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import org.olat.core.id.Identity;
 import org.olat.core.id.InstituteEnabled;
@@ -16,5 +17,7 @@ public interface UserAccountView extends InstituteEnabled, Serializable {
 	public abstract String getInstituteId();
 	public abstract Long getTotalAmount();
 	public Integer getPaidStatusId();
+	public String getPaidStatus();
+	public Date getDueDate();
 	
 }
