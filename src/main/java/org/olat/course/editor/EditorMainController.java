@@ -105,6 +105,7 @@ import org.olat.course.run.preview.PreviewConfigController;
 import org.olat.course.tree.CourseEditorTreeModel;
 import org.olat.course.tree.CourseEditorTreeNode;
 import org.olat.course.tree.CourseInternalLinkTreeModel;
+import org.olat.institute.feature.FeatureModule;
 import org.olat.institute.feature.manager.FC;
 import org.olat.repository.RepositoryEntry;
 import org.olat.repository.RepositoryManager;
@@ -306,8 +307,12 @@ public class EditorMainController extends MainLayoutBasicController implements G
 			listenTo(toolC);
 			toolC.addHeader(translate(NLS_HEADER_TOOLS));
 			toolC.addLink(CMD_COURSEFOLDER, translate(NLS_COMMAND_COURSEFOLDER), CMD_COURSEFOLDER, "o_toolbox_coursefolder");
-			toolC.addLink(CMD_COURSEAREAS, translate(NLS_COMMAND_COURSEAREAS), CMD_COURSEAREAS, "o_toolbox_courseareas");
-			toolC.addLink(CMD_COURSEPREVIEW, translate(NLS_COMMAND_COURSEPREVIEW), CMD_COURSEPREVIEW, "b_toolbox_preview" );
+			if(isLearningResourceEnabled()){
+				toolC.addLink(CMD_COURSEAREAS, translate(NLS_COMMAND_COURSEAREAS), CMD_COURSEAREAS, "o_toolbox_courseareas");
+			}
+			if(isCoursePreviewEnabled()){
+				toolC.addLink(CMD_COURSEPREVIEW, translate(NLS_COMMAND_COURSEPREVIEW), CMD_COURSEPREVIEW, "b_toolbox_preview" );
+			}
 			toolC.addLink(CMD_PUBLISH, translate(NLS_COMMAND_PUBLISH), CMD_PUBLISH,"b_toolbox_publish" );
 			if(externStack == null) {
 				toolC.addLink(CMD_CLOSEEDITOR, translate(NLS_COMMAND_CLOSEEDITOR), null, "b_toolbox_close");
@@ -359,6 +364,14 @@ public class EditorMainController extends MainLayoutBasicController implements G
 			this.dispose();
 			throw e;
 		}
+	}
+	private boolean isLearningResourceEnabled() {
+		return FC.isEnabled(getUserInst(),
+				FeatureModule.FEATURE_LEARNING_RESOURCE_ID);
+	}
+	private boolean isCoursePreviewEnabled() {
+		return FC.isEnabled(getUserInst(),
+				FeatureModule.FEATURE_COURSE_PREVIEW_ID);
 	}
 
 	/**

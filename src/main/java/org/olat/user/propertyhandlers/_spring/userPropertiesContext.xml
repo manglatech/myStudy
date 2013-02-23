@@ -120,7 +120,6 @@
 									only used by user admin to trigger user password change workflow at
 									login, not visible for users when logged in
 								-->
-								<ref bean="userPropertyInstitutionalUserIdentifier" />
 								<ref bean="userPropertyEmailDisabled" />
 							</set>
 						</property>
@@ -157,8 +156,9 @@
 								<ref bean="userPropertyRegion" />
 								<ref bean="userPropertyCity" />
 								<ref bean="userPropertyCountry" />
+								<!-- 
 								<ref bean="userPropertyInstitutionalUserIdentifier" />
-								<!-- <ref bean="userPropertyInstitutionalName" />
+								<ref bean="userPropertyInstitutionalName" />
 								<ref bean="userPropertyInstitutionalEmail" />
 								<ref bean="userPropertyOrgUnit" />-->
 								<ref bean="userPropertyStudySubject" />
@@ -656,8 +656,8 @@
 								<!-- <ref bean="userPropertyInstitutionalName" />
 								<ref bean="userPropertyInstitutionalEmail" />
 								<ref bean="userPropertyOrgUnit" />
-								 -->
 								 <ref bean="userPropertyInstitutionalUserIdentifier" />
+								 -->
 								<ref bean="userPropertyStudySubject" />
 							</list>
 						</property>						
@@ -686,11 +686,11 @@
 								<ref bean="userPropertyFirstName" />
 								<ref bean="userPropertyLastName" />
 								<ref bean="userPropertyEmail" />
+								<ref bean="userPropertyTelMobile" />
 								<!-- <ref bean="userPropertyInstitutionalName" />
 								<ref bean="userPropertyInstitutionalEmail" />
+								<ref bean="userPropertyInstitutionalUserIdentifier" />
 								 -->
-								 <ref bean="userPropertyInstitutionalUserIdentifier" />
-																
 							</list>
 						</property>
 						<property name="mandatoryProperties">

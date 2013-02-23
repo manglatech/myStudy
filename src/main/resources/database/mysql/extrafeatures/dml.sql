@@ -1,4 +1,12 @@
-insert into o_institute_features_control values (1,"2",1,"CP Learning content",1);
-insert into o_institute_features_control values (2,"2",2,"SCORM LC",0);
-insert into o_institute_features_control values (35,"2",35,"CATALOG Module",0);
+update o_bs_identity set fk_institute_id = "0"
 
+-- Create Institute and User From GUI.
+-- Change Institue Id for Users:
+select * from o_bs_identity
+update o_bs_identity set fk_institute_id = "1" where name = 'institute1_admin'
+
+update o_bs_identity set fk_institute_id = "2" where name = 'institute2_admin'
+
+select * from o_gp_business_v
+
+select * from o_institute_features_control

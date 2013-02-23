@@ -61,6 +61,13 @@
 				features.homepage.id=${features.homepage.id}
 				feature.webdav.id=${feature.webdav.id}
 				feature.catalog.id=${feature.catalog.id}
+				feature.archive.tool.id=${feature.archive.tool.id}
+				feature.statistic.id=${feature.statistic.id}
+				feature.learning.resource.id=${feature.learning.resource.id}
+				feature.course.preview.id=${feature.course.preview.id}
+				feature.course.layout.id=${feature.course.layout.id}
+				feature.course.evidence.ach.id=${feature.course.evidence.ach.id}
+				
 				
 				restricated.all.register.user.access.enabled=${restricated.all.register.user.access.enabled}
 				restricated.only.owner.access.enabled=${restricated.only.owner.access.enabled}
@@ -69,6 +76,12 @@
 				restricated.member.only.access.enabled=${restricated.member.only.access.enabled}
 
 				import.resources.enabled=${import.resources.enabled}
+				export.resources.enabled=${export.resources.enabled}
+				
+				limit.search.on.resource.search.form.enabled=${limit.search.on.resource.search.form.enabled}
+				all.course.link.enabled=${all.course.link.enabled}
+				
+				booking.in.course.details.page.enabled=${booking.in.course.details.page.enabled}
 				
 			</value>
 		</property>

@@ -74,6 +74,25 @@ public class FeatureModule extends AbstractOLATModule {
 	public static Integer FEATURE_WEBDAV_ID=34;
 	public static Integer FEATURE_CATALOG_ID=35;
 	
+	//NEW
+	public static Integer FEATURE_ARCHIVE_TOOL_ID=36;
+	public String CONFIG_FEATURE_ARCHIVE_TOOL_ID = "feature.archive.tool.id";
+	
+	public static Integer FEATURE_STATISTIC_ID=37;
+	public String CONFIG_FEATURE_STATISTIC_ID = "feature.statistic.id";
+	
+	public static Integer FEATURE_LEARNING_RESOURCE_ID=38;
+	public String CONFIG_FEATURE_LEARNING_RESOURCE_ID = "feature.learning.resource.id";
+
+	public static Integer FEATURE_COURSE_PREVIEW_ID=39;
+	public String CONFIG_FEATURE_COURSE_PREVIEW_ID = "feature.course.preview.id";
+
+	public static Integer FEATURE_COURSE_LAYOUT_ID=40;
+	public String CONFIG_FEATURE_COURSE_LAYOUT_ID = "feature.course.layout.id";
+
+	public static Integer FEATURE_COURSE_EVIDENCE_ACH_ID=41;
+	public String CONFIG_FEATURE_COURSE_EVIDENCE_ACH_ID = "feature.course.evidence.ach.id";
+
 	public String CONFIG_FEATURE_NOT_DEFINE = "feature.notdefine.id";
 	public String CONFIG_FEATURE_CP_CONTENT_ID="feature.cp.content.id";
 	private String CONFIG_FEATURE_SCORM_CONTENT_ID="feature.scorm.content.id";
@@ -126,6 +145,18 @@ public class FeatureModule extends AbstractOLATModule {
 	
 	private String CONFIG_IMPORT_RESOURCES_ENABLED ="import.resources.enabled";
 	public static boolean IMPORT_RESOURCES_ENABLED = true;
+	private String CONFIG_EXPORT_RESOURCES_ENABLED ="export.resources.enabled";
+	public static boolean EXPORT_RESOURCES_ENABLED = true;
+
+	private String CONFIG_LIMIT_SEARCH_ON_RESOURCE_SEARCH_FORM_ENABLED ="limit.search.on.resource.search.form.enabled";
+	public static boolean LIMIT_SEARCH_ON_RESOURCE_SEARCH_FORM_ENABLED = true;
+	
+	private String CONFIG_ALL_COURSE_LINK_ENABLED ="all.course.link.enabled";
+	public static boolean ALL_COURSE_LINK_ENABLED = true;
+	
+	private String CONFIG_BOOKING_IN_COURSE_DETAILS_ENABLED ="booking.in.course.details.page.enabled";
+	public static boolean BOOKING_IN_COURSE_DETAILS_ENABLED = true;
+	
 	
 	//TODO: Make it Property Driven : It was quick fix. Disabled controller in BusinessGroupContext.xml file. So Not making Prop drivern right now.
 	public static boolean OPEN_BUSINESS_GROUP_ENABLED = false;
@@ -176,6 +207,12 @@ public class FeatureModule extends AbstractOLATModule {
 		FEATURE_HOMEPAGE_ID=getIntConfigParameter(CONFIG_FEATURE_HOMEPAGE_ID,FEATURE_HOMEPAGE_ID);
 		FEATURE_WEBDAV_ID=getIntConfigParameter(CONFIG_FEATURE_WEBDAV_ID,FEATURE_WEBDAV_ID);
 		FEATURE_CATALOG_ID=getIntConfigParameter(CONFIG_FEATURE_CATALOG_ID,FEATURE_CATALOG_ID);
+		FEATURE_ARCHIVE_TOOL_ID=getIntConfigParameter(CONFIG_FEATURE_ARCHIVE_TOOL_ID,FEATURE_ARCHIVE_TOOL_ID);
+		FEATURE_STATISTIC_ID = getIntConfigParameter(CONFIG_FEATURE_STATISTIC_ID,FEATURE_STATISTIC_ID);
+		FEATURE_LEARNING_RESOURCE_ID = getIntConfigParameter(CONFIG_FEATURE_LEARNING_RESOURCE_ID, FEATURE_LEARNING_RESOURCE_ID);
+		FEATURE_COURSE_PREVIEW_ID = getIntConfigParameter(CONFIG_FEATURE_COURSE_PREVIEW_ID, FEATURE_COURSE_PREVIEW_ID);
+		FEATURE_COURSE_LAYOUT_ID = getIntConfigParameter(CONFIG_FEATURE_COURSE_LAYOUT_ID, FEATURE_COURSE_LAYOUT_ID);
+		FEATURE_COURSE_EVIDENCE_ACH_ID = getIntConfigParameter(CONFIG_FEATURE_COURSE_EVIDENCE_ACH_ID, FEATURE_COURSE_EVIDENCE_ACH_ID);
 		
 		ALL_REGISTER_USER_ACCESS = getBooleanConfigParameter(CONFIG_ALL_REGISTER_USER_ACCESS,ALL_REGISTER_USER_ACCESS);
 		ONLY_OWNER_ACCESS= getBooleanConfigParameter(CONFIG_ONLY_OWNER_ACCESS,ONLY_OWNER_ACCESS);
@@ -184,6 +221,12 @@ public class FeatureModule extends AbstractOLATModule {
 		MEMBER_ONLY_ACCESS = getBooleanConfigParameter(CONFIG_MEMBER_ONLY_ACCESS,MEMBER_ONLY_ACCESS);
 		
 		IMPORT_RESOURCES_ENABLED = getBooleanConfigParameter(CONFIG_IMPORT_RESOURCES_ENABLED,IMPORT_RESOURCES_ENABLED);
+		EXPORT_RESOURCES_ENABLED = getBooleanConfigParameter(CONFIG_EXPORT_RESOURCES_ENABLED, EXPORT_RESOURCES_ENABLED);
+		
+		LIMIT_SEARCH_ON_RESOURCE_SEARCH_FORM_ENABLED = getBooleanConfigParameter(CONFIG_LIMIT_SEARCH_ON_RESOURCE_SEARCH_FORM_ENABLED, LIMIT_SEARCH_ON_RESOURCE_SEARCH_FORM_ENABLED);
+		ALL_COURSE_LINK_ENABLED = getBooleanConfigParameter(CONFIG_ALL_COURSE_LINK_ENABLED, ALL_COURSE_LINK_ENABLED);
+		
+		BOOKING_IN_COURSE_DETAILS_ENABLED = getBooleanConfigParameter(CONFIG_BOOKING_IN_COURSE_DETAILS_ENABLED, BOOKING_IN_COURSE_DETAILS_ENABLED);
 		
 	}
 

@@ -227,9 +227,9 @@ public class RepositoryMainController extends MainLayoutBasicController
 			menuTree.setSelectedNode(activatedNode);
 		} else {
 			if(isCourseEnabled()){
-				activateContent(ureq, "search.course", null, null);
+				activateContent(ureq, "search.mycourses.student", null, null);
 				TreeNode activatedNode = TreeHelper.findNodeByUserObject(
-						"search.course", rootNode);
+						"search.mycourses.student", rootNode);
 				menuTree.setSelectedNode(activatedNode);
 			}else{
 				activateContent(ureq, "search.generic", null, null);
@@ -431,7 +431,7 @@ public class RepositoryMainController extends MainLayoutBasicController
 				}
 			}
 		}
-		if(isCourseEnabled()){
+		if(isCourseEnabled() && FeatureModule.ALL_COURSE_LINK_ENABLED){
 			node = new GenericTreeNode(translate("search.course"), "search.course");
 			node.setCssClass("o_sel_repo_course");
 			rootNode.addChild(node);
